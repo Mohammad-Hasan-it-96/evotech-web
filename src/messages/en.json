@@ -1,0 +1,242 @@
+{
+  "meta": {
+    "siteName": "EVOTECH",
+    "defaultTitle": "EVOTECH — Integrated software that runs your business",
+    "description": "EVOTECH Software: we build ERP, POS, mobile apps and smart solutions for businesses — high performance with a modern design."
+  },
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "products": "Products",
+    "pricing": "Pricing",
+    "about": "About",
+    "contact": "Contact",
+    "cta": "Get Started"
+  },
+  "common": {
+    "learnMore": "Learn more",
+    "getStarted": "Get started",
+    "contactSales": "Contact sales",
+    "viewDetails": "View details",
+    "explore": "Explore",
+    "toggleTheme": "Toggle theme",
+    "toggleMenu": "Menu",
+    "language": "Language",
+    "backHome": "Back to home"
+  },
+  "home": {
+    "hero": {
+      "badge": "Software company · End-to-end solutions",
+      "title": "We build systems that run your business",
+      "titleHighlight": "smarter",
+      "subtitle": "From point-of-sale and restaurant management to delivery and accounting apps — we design and build reliable software that grows with your company.",
+      "ctaPrimary": "Start your project",
+      "ctaSecondary": "Browse products"
+    },
+    "stats": {
+      "products": "Ready products",
+      "clients": "Clients trust us",
+      "uptime": "Service uptime",
+      "support": "Technical support"
+    },
+    "servicesSection": {
+      "title": "Our services",
+      "subtitle": "We cover the full software lifecycle — from idea to launch and support."
+    },
+    "productsSection": {
+      "title": "Our products",
+      "subtitle": "Ready-made systems that power your business from day one."
+    },
+    "why": {
+      "title": "Why EVOTECH?",
+      "subtitle": "We balance engineering quality, user experience and on-time delivery.",
+      "items": [
+        {
+          "title": "Performance & reliability",
+          "description": "Built on a modern, scalable architecture that handles growth without a rebuild."
+        },
+        {
+          "title": "Security first",
+          "description": "Data protection, permissions and encryption are core to everything we build."
+        },
+        {
+          "title": "Modern design",
+          "description": "Elegant, fast interfaces with Arabic & English and dark mode support."
+        },
+        {
+          "title": "Ongoing support",
+          "description": "A team close to you for maintenance and continuous improvement after launch."
+        }
+      ]
+    },
+    "ctaBand": {
+      "title": "Ready to digitize your business?",
+      "subtitle": "Book a free consultation and let us build the right solution for you.",
+      "button": "Contact us now"
+    }
+  },
+  "servicesPage": {
+    "title": "Our services",
+    "subtitle": "Comprehensive software solutions tailored to your business needs."
+  },
+  "productsPage": {
+    "title": "Our products",
+    "subtitle": "Ready systems and apps that run your business efficiently.",
+    "featuresLabel": "Key features",
+    "platformsLabel": "Platforms",
+    "notFound": "Product not found"
+  },
+  "pricingPage": {
+    "title": "Pricing plans",
+    "subtitle": "Flexible plans for every business size — no hidden fees.",
+    "perMonth": "/ month",
+    "popular": "Most popular",
+    "cta": "Subscribe now",
+    "custom": "Contact us",
+    "note": "* Prices are placeholders for preview and will be updated later."
+  },
+  "aboutPage": {
+    "title": "About us",
+    "subtitle": "A startup passionate about building software that makes a real difference.",
+    "missionTitle": "Our mission",
+    "mission": "Empower businesses in the region to run their operations with reliable, easy and fairly-priced software.",
+    "visionTitle": "Our vision",
+    "vision": "To be the central platform powering hundreds of products and thousands of companies across the region.",
+    "valuesTitle": "Our values",
+    "values": [
+      { "title": "Craftsmanship", "description": "We write clean, maintainable code and never take shortcuts that hurt the future." },
+      { "title": "Transparency", "description": "Full clarity in pricing, timelines and communication with our clients." },
+      { "title": "Customer first", "description": "Our client's success is the true measure of ours." }
+    ]
+  },
+  "contactPage": {
+    "title": "Contact us",
+    "subtitle": "Tell us about your project and we'll get back within 24 hours.",
+    "infoTitle": "Contact information",
+    "form": {
+      "name": "Full name",
+      "namePlaceholder": "Your name",
+      "phone": "Phone number",
+      "phonePlaceholder": "09xxxxxxxx",
+      "email": "Email address",
+      "emailPlaceholder": "you@example.com",
+      "message": "Your message",
+      "messagePlaceholder": "Tell us about your project...",
+      "submit": "Send message",
+      "success": "Your message has been received. Thank you!"
+    }
+  },
+  "footer": {
+    "tagline": "Integrated software that runs your business, smarter.",
+    "productsTitle": "Products",
+    "companyTitle": "Company",
+    "contactTitle": "Contact",
+    "rights": "All rights reserved."
+  },
+  "dashboard": {
+    "brand": "Dashboard",
+    "login": {
+      "title": "Sign in",
+      "subtitle": "Access your EVOTECH dashboard",
+      "email": "Email address",
+      "password": "Password",
+      "submit": "Sign in",
+      "signingIn": "Signing in...",
+      "error": "Invalid credentials"
+    },
+    "nav": {
+      "overview": "Overview",
+      "subscriptions": "Subscriptions",
+      "clients": "Clients",
+      "products": "Products",
+      "logout": "Sign out"
+    },
+    "overview": {
+      "title": "Overview",
+      "welcome": "Welcome, {name} 👋",
+      "subtitle": "This is your EVOTECH dashboard for managing subscriptions, clients and products.",
+      "manage": "Manage"
+    },
+    "common": {
+      "loading": "Loading...",
+      "comingSoon": "Coming soon",
+      "cancel": "Cancel"
+    },
+    "status": {
+      "active": "Active",
+      "expired": "Expired",
+      "cancelled": "Cancelled",
+      "pending": "Pending",
+      "suspended": "Suspended",
+      "inactive": "Inactive"
+    },
+    "subscriptions": {
+      "title": "Subscriptions",
+      "new": "New subscription",
+      "empty": "No subscriptions yet",
+      "client": "Client",
+      "product": "Product",
+      "plan": "Plan",
+      "statusLabel": "Status",
+      "identifier": "Identifier",
+      "ends": "Ends",
+      "daysLeft": "{days} days left",
+      "actions": "Actions",
+      "renew": "Renew",
+      "cancelSub": "Cancel",
+      "delete": "Delete",
+      "noEnd": "No end date",
+      "create": {
+        "title": "Create subscription",
+        "selectCompany": "Select client",
+        "selectProduct": "Select product",
+        "selectPlan": "Select plan",
+        "identifierType": "Identifier type",
+        "domain": "Domain",
+        "device": "Device id",
+        "identifierValue": "Identifier value (domain or id)",
+        "autoRenew": "Auto-renew",
+        "submit": "Create",
+        "creating": "Creating..."
+      },
+      "toast": {
+        "created": "Subscription created",
+        "renewed": "Renewed",
+        "cancelled": "Cancelled",
+        "deleted": "Deleted",
+        "error": "Something went wrong"
+      }
+    },
+    "clients": {
+      "title": "Clients",
+      "new": "New client",
+      "empty": "No clients yet",
+      "name": "Name",
+      "email": "Email",
+      "phone": "Phone",
+      "statusLabel": "Status",
+      "actions": "Actions",
+      "delete": "Delete",
+      "create": {
+        "title": "Add client",
+        "name": "Client name",
+        "email": "Email address",
+        "phone": "Phone number",
+        "submit": "Add",
+        "creating": "Adding..."
+      },
+      "toast": {
+        "created": "Client added",
+        "deleted": "Deleted",
+        "error": "Something went wrong"
+      }
+    },
+    "productsList": {
+      "title": "Products",
+      "plans": "Plans",
+      "perMonth": "/mo",
+      "popular": "Most popular",
+      "empty": "No products"
+    }
+  }
+}
