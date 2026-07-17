@@ -147,6 +147,7 @@
     "nav": {
       "overview": "Overview",
       "subscriptions": "Subscriptions",
+      "devices": "App devices",
       "clients": "Clients",
       "products": "Products",
       "logout": "Sign out"
@@ -205,6 +206,39 @@
         "cancelled": "Cancelled",
         "deleted": "Deleted",
         "error": "Something went wrong"
+      }
+    },
+    "devices": {
+      "title": "App devices",
+      "tabs": { "pending": "Pending requests", "all": "All devices" },
+      "search": "Search",
+      "searchPlaceholder": "Phone, name or device id",
+      "empty": "No devices yet",
+      "emptyPending": "No pending requests — you're all caught up",
+      "count": "{total} device(s)",
+      "user": "User",
+      "app": "App",
+      "statusLabel": "Status",
+      "requested": "Requested / plan",
+      "ends": "Ends",
+      "noEnd": "No end date",
+      "actions": "Actions",
+      "status": {
+        "pending": "Awaiting activation",
+        "trial": "Trial",
+        "active": "Active",
+        "expired": "Expired"
+      },
+      "activate": {
+        "title": "Activate device",
+        "activate": "Activate",
+        "extend": "Extend",
+        "plan": "Plan",
+        "selectPlan": "Select a plan",
+        "requested": "The user asked for: {plan}",
+        "confirm": "Activate",
+        "done": "Device activated",
+        "failed": "Could not activate the device"
       }
     },
     "clients": {

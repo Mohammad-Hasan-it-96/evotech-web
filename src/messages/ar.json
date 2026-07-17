@@ -147,6 +147,7 @@
     "nav": {
       "overview": "نظرة عامة",
       "subscriptions": "الاشتراكات",
+      "devices": "أجهزة التطبيقات",
       "clients": "العملاء",
       "products": "المنتجات",
       "logout": "تسجيل الخروج"
@@ -205,6 +206,39 @@
         "cancelled": "تم الإلغاء",
         "deleted": "تم الحذف",
         "error": "حدث خطأ ما"
+      }
+    },
+    "devices": {
+      "title": "أجهزة التطبيقات",
+      "tabs": { "pending": "طلبات معلّقة", "all": "كل الأجهزة" },
+      "search": "بحث",
+      "searchPlaceholder": "الهاتف أو الاسم أو معرّف الجهاز",
+      "empty": "لا توجد أجهزة بعد",
+      "emptyPending": "لا توجد طلبات معلّقة",
+      "count": "{total} جهاز",
+      "user": "المستخدم",
+      "app": "التطبيق",
+      "statusLabel": "الحالة",
+      "requested": "المطلوب / الخطة",
+      "ends": "ينتهي",
+      "noEnd": "بلا تاريخ انتهاء",
+      "actions": "إجراءات",
+      "status": {
+        "pending": "بانتظار التفعيل",
+        "trial": "تجريبي",
+        "active": "مفعّل",
+        "expired": "منتهٍ"
+      },
+      "activate": {
+        "title": "تفعيل الجهاز",
+        "activate": "تفعيل",
+        "extend": "تمديد",
+        "plan": "الخطة",
+        "selectPlan": "اختر خطة",
+        "requested": "المستخدم طلب: {plan}",
+        "confirm": "تفعيل",
+        "done": "تم تفعيل الجهاز",
+        "failed": "تعذر تفعيل الجهاز"
       }
     },
     "clients": {

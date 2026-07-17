@@ -2,6 +2,7 @@ import { apiFetch } from "./client";
 import type {
   ApiEnvelope,
   Company,
+  DeviceSubscription,
   Paginated,
   Product,
   Subscription,
@@ -68,4 +69,63 @@ export function cancelSubscription(id: string) {
 
 export function deleteSubscription(id: string) {
   return apiFetch<void>(`/v1/subscriptions/${id}`, { method: "DELETE" });
+}
+
+// --- Device subscriptions (consumer apps: SmartAgent, Fawateer) ---
+
+export interface DeviceSubscriptionFilters {
+  /** `"pending"` lists the devices waiting on an operator. */
+  status?: string;
+  app_name?: string;
+  /** Searches device_id, full_name and phone. */
+  q?: string;
+  page?: number;
+}
+
+export function fetchDeviceSubscriptions(filters: DeviceSubscriptionFilters = {}) {
+  const params = new URLSearchParams({ per_page: "25" });
+
+  for (const [key, value] of Object.entries(filters)) {
+    if (value !== undefined && value !== "") params.set(key, String(value));
+  }
+
+  return apiFetch<Paginated<DeviceSubscription>>(
+    `/v1/device-subscriptions?${params.toString()}`,
+  );
+}
+
+/**
+ * Activate or extend a device. Fulfils the purchase intent, so it also closes
+ * the pending request server-side and pushes the live-unlock notification.
+ */
+export function activateDeviceSubscription(id: string, planId: string) {
+  return apiFetch<ApiEnvelope<DeviceSubscription>>(
+    `/v1/device-subscriptions/${id}/activate`,
+    { method: "POST", body: { plan_id: planId } },
+  );
+}
+
+export interface DevicePlan {
+  id: string;
+  title: string;
+  description: string | null;
+  duration_months: number;
+  price: number;
+  price_after_discount: number | null;
+  enabled: boolean;
+  recommended: boolean;
+}
+
+/**
+ * The same catalog the app sees, so the operator can only pick a plan id the
+ * device recognises. Scope it to the device's app: plans are per-app, and an id
+ * the device's catalog does not define activates a 0-month term — an instantly
+ * expired subscription for someone who has just paid.
+ */
+export function fetchDevicePlans(appName?: string | null) {
+  const query = appName ? `?app_name=${encodeURIComponent(appName)}` : "";
+
+  return apiFetch<ApiEnvelope<{ currency: { code: string; symbol: string } | null; plans: DevicePlan[] }>>(
+    `/v1/device-subscriptions/plans${query}`,
+  );
 }
