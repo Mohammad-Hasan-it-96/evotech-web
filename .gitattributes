@@ -1,0 +1,8 @@
+# Shell scripts must keep LF endings regardless of the platform they are checked
+# out on. A CRLF checkout of deploy.sh fails on the server with an opaque
+# "bad interpreter: /usr/bin/env bash^M" — the script is authored on Windows and
+# only ever runs on Linux.
+*.sh text eol=lf
+
+# Served verbatim to the mobile apps; keep them byte-stable.
+*.json text eol=lf
