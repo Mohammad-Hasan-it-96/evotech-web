@@ -116,9 +116,16 @@ export interface DevicePlan {
   recommended: boolean;
 }
 
-/** The same catalog the apps see, so the operator can only pick a plan id a device recognises. */
-export function fetchDevicePlans() {
+/**
+ * The same catalog the app sees, so the operator can only pick a plan id the
+ * device recognises. Scope it to the device's app: plans are per-app, and an id
+ * the device's catalog does not define activates a 0-month term — an instantly
+ * expired subscription for someone who has just paid.
+ */
+export function fetchDevicePlans(appName?: string | null) {
+  const query = appName ? `?app_name=${encodeURIComponent(appName)}` : "";
+
   return apiFetch<ApiEnvelope<{ currency: { code: string; symbol: string } | null; plans: DevicePlan[] }>>(
-    "/v1/device-subscriptions/plans",
+    `/v1/device-subscriptions/plans${query}`,
   );
 }

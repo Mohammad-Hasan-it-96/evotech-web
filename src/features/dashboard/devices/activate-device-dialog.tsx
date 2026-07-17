@@ -43,9 +43,11 @@ export function ActivateDeviceDialog({ device }: { device: DeviceSubscription })
   const [open, setOpen] = React.useState(false);
   const [planId, setPlanId] = React.useState("");
 
+  // Keyed by app: plans are per-app, so a cache shared across apps would offer
+  // one app's plan ids while activating another's device.
   const { data } = useQuery({
-    queryKey: ["device-plans"],
-    queryFn: fetchDevicePlans,
+    queryKey: ["device-plans", device.app_name],
+    queryFn: () => fetchDevicePlans(device.app_name),
     enabled: open,
   });
 
