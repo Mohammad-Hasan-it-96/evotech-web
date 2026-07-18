@@ -1,0 +1,93 @@
+name: Deploy
+
+# This repo had no CI at all, so the verify job below is doing double duty: it is
+# both the pull-request gate and the thing that stops a broken build reaching the
+# server.
+#
+# That second role matters more than usual here. deploy.sh removes .next before
+# rebuilding, so a build that fails ON THE SERVER leaves the old process running
+# with no build directory behind it — chunks 404 and the site breaks. Proving the
+# build on identical inputs (same lockfile, npm ci) before we ever touch the VPS
+# is what keeps that from happening.
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+
+jobs:
+  verify:
+    name: Typecheck · Lint · Build
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      # ci, never install: install rewrites package-lock.json, which is how the
+      # server ended up with a commit it had made to itself.
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Typecheck
+        run: npx tsc --noEmit
+
+      - name: Lint
+        run: npx eslint src --max-warnings=0
+
+      - name: Build
+        run: npm run build
+
+  deploy:
+    name: Deploy to production
+    needs: verify
+    if: github.event_name == 'push' && github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+
+    # Serialise: deploy.sh stops and restarts the app, so two overlapping runs
+    # can leave the site down. A queued deploy beats a half-applied one.
+    concurrency:
+      group: deploy-web
+      cancel-in-progress: false
+
+    steps:
+      - name: Deploy over SSH
+        uses: appleboy/ssh-action@v1.2.0
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          key: ${{ secrets.SSH_KEY }}
+          port: ${{ secrets.SSH_PORT || 22 }}
+          # deploy.sh runs 3-5 minutes (npm ci + build); the action's default is
+          # shorter than that.
+          command_timeout: 15m
+          script_stop: true
+          script: |
+            set -Eeuo pipefail
+            cd "${{ secrets.WEB_PATH }}"
+            git pull --ff-only origin main
+            ./deploy.sh
+
+      # deploy.sh already health-checks locally on 127.0.0.1. This checks the
+      # public URL, which also covers the proxy in front of it.
+      #
+      # WEB_BASE_URL is the origin with no trailing slash, e.g.
+      # https://evotech-sys.com
+      - name: Health check
+        env:
+          BASE: ${{ secrets.WEB_BASE_URL }}
+        run: |
+          code=$(curl -s -o /dev/null -w '%{http_code}' --max-time 20 "$BASE/ar")
+          echo "site: $code"
+          [ "$code" = "200" ] || { echo "Site is not healthy after deploy" >&2; exit 1; }
+
+          # The file that tells the Fawateer app which API to talk to. A 404 here
+          # makes the app silently fall back to its baked-in URL, so this failure
+          # would otherwise look like nothing at all.
+          config=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "$BASE/config/fawateer.json")
+          echo "config: $config"
+          [ "$config" = "200" ] || { echo "/config/fawateer.json is not being served" >&2; exit 1; }
