@@ -241,6 +241,16 @@
         "done": "Device activated",
         "failed": "Could not activate the device"
       },
+      "delete": {
+        "action": "Delete device",
+        "title": "Delete this device?",
+        "warnActive": "This device currently has access. Deleting it locks the user out of the app immediately, with no message shown to them.",
+        "warnTrial": "This cannot be undone. If the app grants a free trial, deleting the row makes the device eligible for a new one the next time it registers.",
+        "cancel": "Cancel",
+        "confirm": "Delete permanently",
+        "done": "Device deleted",
+        "failed": "Could not delete the device"
+      },
       "decline": {
         "action": "Decline",
         "title": "Decline this request?",

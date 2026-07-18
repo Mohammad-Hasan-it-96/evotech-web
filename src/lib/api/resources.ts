@@ -119,6 +119,21 @@ export function declineDeviceSubscription(id: string) {
   );
 }
 
+/**
+ * Remove a device row: smoke-test entries, the inert `fallback_device_id`
+ * bucket rows, duplicates.
+ *
+ * `force` is required for a device that still has access — deleting one is not
+ * a tidy-up, it locks that device out of the app immediately and silently. It
+ * cannot be undone; the row is the only record the device existed.
+ */
+export function deleteDeviceSubscription(id: string, force = false) {
+  return apiFetch<void>(
+    `/v1/device-subscriptions/${id}${force ? "?force=1" : ""}`,
+    { method: "DELETE" },
+  );
+}
+
 export interface DevicePlan {
   id: string;
   title: string;
