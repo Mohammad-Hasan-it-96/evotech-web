@@ -105,6 +105,20 @@ export function activateDeviceSubscription(id: string, planId: string) {
   );
 }
 
+/**
+ * Reject an open purchase intent. Closes the request without selling anything —
+ * the alternative was activating a plan just to clear the queue.
+ *
+ * Only touches the request: a device holding a trial or a paid plan keeps it.
+ * 422s if there is no pending request to decline.
+ */
+export function declineDeviceSubscription(id: string) {
+  return apiFetch<ApiEnvelope<DeviceSubscription>>(
+    `/v1/device-subscriptions/${id}/decline`,
+    { method: "POST" },
+  );
+}
+
 export interface DevicePlan {
   id: string;
   title: string;

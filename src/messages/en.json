@@ -227,7 +227,8 @@
         "pending": "Awaiting activation",
         "trial": "Trial",
         "active": "Active",
-        "expired": "Expired"
+        "expired": "Expired",
+        "declined": "Request declined"
       },
       "activate": {
         "title": "Activate device",
@@ -239,6 +240,15 @@
         "confirm": "Activate",
         "done": "Device activated",
         "failed": "Could not activate the device"
+      },
+      "decline": {
+        "action": "Decline",
+        "title": "Decline this request?",
+        "explain": "The request is removed from the queue. Any subscription the device already has is untouched, and the customer can ask again from the app.",
+        "cancel": "Cancel",
+        "confirm": "Decline request",
+        "done": "Request declined",
+        "failed": "Could not decline the request"
       }
     },
     "clients": {
