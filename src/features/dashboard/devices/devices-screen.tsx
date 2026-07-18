@@ -21,6 +21,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { ActivateDeviceDialog } from "./activate-device-dialog";
+import { DeclineDeviceDialog } from "./decline-device-dialog";
 
 /**
  * The operator console for consumer-app devices (SmartAgent, Fawateer).
@@ -171,7 +172,12 @@ function DeviceRow({ device }: { device: DeviceSubscription }) {
       </TableCell>
 
       <TableCell className="text-end">
-        <ActivateDeviceDialog device={device} />
+        <div className="flex items-center justify-end gap-1">
+          {/* Decline only answers an open request — there is nothing to refuse
+              on a device that has not asked for anything. */}
+          {device.status === "pending" ? <DeclineDeviceDialog device={device} /> : null}
+          <ActivateDeviceDialog device={device} />
+        </div>
       </TableCell>
     </TableRow>
   );
@@ -193,6 +199,13 @@ function DeviceStatusBadge({ device }: { device: DeviceSubscription }) {
   }
   if (device.is_active) {
     return <Badge variant="outline">{t("active")}</Badge>;
+  }
+  // After the access checks, not before. A decline is permanent where "pending"
+  // is transient, so a paying customer whose *upgrade* was refused must still
+  // read as Active — but a device with no access reads better as "declined" than
+  // as "expired", which claims it once had a subscription.
+  if (device.status === "declined") {
+    return <Badge variant="outline">{t("declined")}</Badge>;
   }
 
   return <Badge variant="destructive">{t("expired")}</Badge>;
