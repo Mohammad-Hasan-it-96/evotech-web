@@ -22,6 +22,7 @@ import {
 } from "@/components/ui/table";
 import { ActivateDeviceDialog } from "./activate-device-dialog";
 import { DeclineDeviceDialog } from "./decline-device-dialog";
+import { DeleteDeviceDialog } from "./delete-device-dialog";
 
 /**
  * The operator console for consumer-app devices (SmartAgent, Fawateer).
@@ -177,6 +178,7 @@ function DeviceRow({ device }: { device: DeviceSubscription }) {
               on a device that has not asked for anything. */}
           {device.status === "pending" ? <DeclineDeviceDialog device={device} /> : null}
           <ActivateDeviceDialog device={device} />
+          <DeleteDeviceDialog device={device} />
         </div>
       </TableCell>
     </TableRow>
