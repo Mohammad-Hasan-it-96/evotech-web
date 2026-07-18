@@ -99,7 +99,9 @@ export function ActivateDeviceDialog({ device }: { device: DeviceSubscription })
 
           {device.requested_plan ? (
             <p className="text-sm text-muted-foreground">
-              {t("requested", { plan: device.requested_plan })}
+              {/* The catalog carries a human title; the raw id ("months_12") is
+                  only a fallback for the moment before it loads. */}
+              {t("requested", { plan: requested?.title ?? device.requested_plan })}
             </p>
           ) : null}
 

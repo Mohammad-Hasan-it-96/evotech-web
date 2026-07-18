@@ -3,7 +3,7 @@
 import * as React from "react";
 import { Loader2, Search } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import {
   fetchDeviceSubscriptions,
   type DeviceSubscriptionFilters,
@@ -128,6 +128,9 @@ export function DevicesScreen() {
 
 function DeviceRow({ device }: { device: DeviceSubscription }) {
   const t = useTranslations("dashboard.devices");
+  // Same locale the subscriptions table formats with — without it the two
+  // screens render the same date in different calendars for the same operator.
+  const locale = useLocale();
 
   return (
     <TableRow>
@@ -160,7 +163,7 @@ function DeviceRow({ device }: { device: DeviceSubscription }) {
       <TableCell>
         {device.expires_at ? (
           <span className={device.is_active ? undefined : "text-destructive"}>
-            {new Date(device.expires_at).toLocaleDateString()}
+            {new Date(device.expires_at).toLocaleDateString(locale)}
           </span>
         ) : (
           <span className="text-muted-foreground">{t("noEnd")}</span>
