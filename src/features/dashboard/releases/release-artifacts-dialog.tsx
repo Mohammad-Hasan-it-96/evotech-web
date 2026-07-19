@@ -41,6 +41,23 @@ const PLATFORMS = [
   "any",
 ] as const;
 
+/**
+ * Architectures worth splitting a build across, per platform.
+ *
+ * Android's are the ABI strings `Build.SUPPORTED_ABIS` reports, and the app
+ * matches them **exactly** — so these are a fixed list rather than free text: a
+ * typo'd ABI is not a validation nicety, it is a download no device can find.
+ *
+ * `""` is universal: one build that installs anywhere. It is the right answer for
+ * most releases, so it leads.
+ */
+const VARIANTS: Record<string, readonly string[]> = {
+  android: ["", "arm64-v8a", "armeabi-v7a", "x86_64", "x86"],
+  windows: ["", "x64", "arm64"],
+  macos: ["", "arm64", "x64"],
+  linux: ["", "x64", "arm64"],
+};
+
 /** Bytes → a size an operator can sanity-check an upload against. */
 function formatSize(bytes: number): string {
   if (bytes < 1024) return `${bytes} B`;
@@ -64,6 +81,7 @@ export function ReleaseArtifactsDialog({ release }: { release: Release }) {
 
   const [open, setOpen] = React.useState(false);
   const [platform, setPlatform] = React.useState<string>("android");
+  const [variant, setVariant] = React.useState<string>("");
   const [file, setFile] = React.useState<File | null>(null);
   const [copied, setCopied] = React.useState<string | null>(null);
   const fileInput = React.useRef<HTMLInputElement>(null);
@@ -84,7 +102,7 @@ export function ReleaseArtifactsDialog({ release }: { release: Release }) {
   };
 
   const upload = useMutation({
-    mutationFn: () => uploadArtifact(release.id, file as File, platform),
+    mutationFn: () => uploadArtifact(release.id, file as File, platform, variant),
     onSuccess: async () => {
       await invalidate();
       toast.success(t("uploaded"));
@@ -160,7 +178,15 @@ export function ReleaseArtifactsDialog({ release }: { release: Release }) {
             <div className="grid gap-3 sm:grid-cols-2">
               <div className="space-y-2">
                 <Label>{t("platform")}</Label>
-                <Select value={platform} onValueChange={setPlatform}>
+                <Select
+                  value={platform}
+                  onValueChange={(next) => {
+                    setPlatform(next);
+                    // An ABI is meaningless against a different platform, and
+                    // carrying one over would produce a URL nothing looks up.
+                    setVariant("");
+                  }}
+                >
                   <SelectTrigger>
                     <SelectValue />
                   </SelectTrigger>
@@ -173,6 +199,25 @@ export function ReleaseArtifactsDialog({ release }: { release: Release }) {
                   </SelectContent>
                 </Select>
               </div>
+
+              {/* Only where splitting a build is a real choice. */}
+              {VARIANTS[platform] ? (
+                <div className="space-y-2">
+                  <Label>{t("variant")}</Label>
+                  <Select value={variant} onValueChange={setVariant}>
+                    <SelectTrigger>
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {VARIANTS[platform].map((value) => (
+                        <SelectItem key={value || "universal"} value={value}>
+                          {value === "" ? t("universal") : value}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+                </div>
+              ) : null}
 
               <div className="space-y-2">
                 <Label htmlFor="a-file">{t("file")}</Label>
@@ -230,14 +275,22 @@ function ArtifactRow({
   deleting: boolean;
 }) {
   const t = useTranslations("dashboard.releases.artifacts");
-  const url = publicDownloadUrl(productSlug, artifact.platform);
+  const url = publicDownloadUrl(productSlug, artifact.platform, artifact.variant);
 
   return (
     <div className="rounded-lg bg-muted/50 p-3 text-sm">
       <div className="flex items-start justify-between gap-2">
         <div className="min-w-0">
           <div className="font-medium">
-            {artifact.platform} · {artifact.filename}
+            {artifact.platform}
+            {/* The ABI belongs beside the platform: two rows would otherwise read
+                identically while serving different devices. */}
+            {artifact.variant ? (
+              <span className="ms-1 font-mono text-xs text-muted-foreground">
+                {artifact.variant}
+              </span>
+            ) : null}{" "}
+            · {artifact.filename}
           </div>
           <div className="text-xs text-muted-foreground">
             {formatSize(artifact.size)} · {t("downloadCount", { count: artifact.download_count })}

@@ -174,6 +174,11 @@ export interface DeviceCatalogPlan {
 export interface ReleaseArtifact {
   id: string;
   platform: string;
+  /**
+   * Distinguishes builds of one platform — Android's `arm64-v8a` vs
+   * `armeabi-v7a`. Empty string means universal: one build installing anywhere.
+   */
+  variant: string;
   filename: string;
   size: number;
   checksum_sha256: string;

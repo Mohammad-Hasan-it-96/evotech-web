@@ -200,10 +200,17 @@ export function deleteRelease(id: string) {
  * from the platform's own origin, so an `.html` artifact would be script running
  * as this site.
  */
-export function uploadArtifact(releaseId: string, file: File, platform: string) {
+export function uploadArtifact(
+  releaseId: string,
+  file: File,
+  platform: string,
+  /** ABI/architecture; omit for a universal build that installs anywhere. */
+  variant = "",
+) {
   const form = new FormData();
   form.append("file", file);
   form.append("platform", platform);
+  if (variant !== "") form.append("variant", variant);
 
   return apiFetch<ApiEnvelope<ReleaseArtifact>>(
     `/v1/releases/${releaseId}/artifacts`,
@@ -224,10 +231,16 @@ export function deleteArtifact(id: string) {
  * is what makes it safe to paste into a message or a cached config file, unlike
  * the 15-minute signed links used for authenticated self-update.
  */
-export function publicDownloadUrl(productSlug: string, platform: string) {
+export function publicDownloadUrl(
+  productSlug: string,
+  platform: string,
+  variant = "",
+) {
   const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
+  // Omitted, not empty: `…/android/` is not the universal build's URL.
+  const suffix = variant === "" ? "" : `/${variant}`;
 
-  return `${base}/v1/downloads/latest/${productSlug}/${platform}`;
+  return `${base}/v1/downloads/latest/${productSlug}/${platform}${suffix}`;
 }
 
 // --- Device catalog (apps + their purchasable plans) ---
