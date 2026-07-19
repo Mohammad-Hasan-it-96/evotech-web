@@ -19,6 +19,34 @@ export interface DeviceRemoteConfig {
 }
 
 export const deviceConfigFallback: Record<string, DeviceRemoteConfig> = {
+  /*
+   * Smart-Agent's users are on the legacy backend, and its parser applies
+   * `base_url` destructively: where Fawateer keeps its current value when the
+   * field is blank, Smart-Agent resets to its compiled-in default. Whatever is
+   * here becomes where every device talks, so this mirrors the Google Drive file
+   * its shipped builds read — legacy host included.
+   *
+   * Nothing reads this yet: shipped builds still fetch that Drive file, and Drive
+   * serves bytes rather than redirecting here. It exists so the release that
+   * repoints them is a one-line change.
+   */
+  smartagent: {
+    latest_version: "1.1.1",
+    api: { base_url: "https://harrypotter.foodsalebot.com/api" },
+    downloads: {
+      "arm64-v8a":
+        "https://harrypotter.foodsalebot.com/downloads/app-arm64-v8a-release.apk",
+      "armeabi-v7a":
+        "https://harrypotter.foodsalebot.com/downloads/app-armeabi-v7a-release.apk",
+    },
+    update_notes: [],
+    support: {
+      // Its own inbox — deliberately not Fawateer's.
+      email: "smart.agent.app.support@gmail.com",
+      whatsapp: "963959027196",
+      telegram: "https://t.me/+963959027196",
+    },
+  },
   fawateer: {
     latest_version: "1.0.0",
     api: { base_url: "https://api.evotech-sys.com/api/fawateer" },
