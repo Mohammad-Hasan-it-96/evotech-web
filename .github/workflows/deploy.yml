@@ -85,9 +85,26 @@ jobs:
           echo "site: $code"
           [ "$code" = "200" ] || { echo "Site is not healthy after deploy" >&2; exit 1; }
 
-          # The file that tells the Fawateer app which API to talk to. A 404 here
+          # The response that tells the Fawateer app which API to talk to. A 404
           # makes the app silently fall back to its baked-in URL, so this failure
           # would otherwise look like nothing at all.
-          config=$(curl -s -o /dev/null -w '%{http_code}' --max-time 15 "$BASE/config/fawateer.json")
-          echo "config: $config"
-          [ "$config" = "200" ] || { echo "/config/fawateer.json is not being served" >&2; exit 1; }
+          #
+          # The body is asserted, not just the status: this is now a route handler
+          # that falls back to a committed default, so it answers 200 even when the
+          # API is unreachable. Checking status alone could no longer fail.
+          config=$(curl -s -w '\n%{http_code}' --max-time 15 "$BASE/config/fawateer.json")
+          code=$(printf '%s' "$config" | tail -n1)
+          body=$(printf '%s' "$config" | sed '$d')
+          echo "config: $code"
+          [ "$code" = "200" ] || { echo "/config/fawateer.json is not being served" >&2; exit 1; }
+          printf '%s' "$body" | grep -q '"base_url"' \
+            || { echo "/config/fawateer.json has no base_url — the app would use its baked-in URL" >&2; exit 1; }
+
+          # Serving the fallback is a warning, not a failure: the app still gets a
+          # working config. Failing here would block an unrelated web deploy on the
+          # API being briefly down.
+          source=$(curl -s -o /dev/null -D - --max-time 15 "$BASE/config/fawateer.json" \
+            | tr -d '\r' | awk -F': ' 'tolower($1)=="x-config-source"{print $2}')
+          [ "$source" = "fallback" ] \
+            && echo "::warning::/config/fawateer.json is serving the built-in fallback — dashboard edits are not live." \
+            || echo "config source: ${source:-unknown}"

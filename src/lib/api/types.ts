@@ -130,6 +130,21 @@ export interface DeviceApp {
   /** False = this app sells its own catalog; true = it reads the shared list. */
   uses_shared_plans: boolean;
   plans_count?: number;
+
+  /**
+   * The startup config served at `/config/<slug>.json`.
+   *
+   * `latest_version` must be digits and dots only — the apps compare it
+   * component-wise as integers, so a suffix like `-beta` reads as 0 and hides the
+   * update. `api_base_url` is null when derived from the slug.
+   */
+  latest_version: string | null;
+  api_base_url: string | null;
+  downloads: Record<string, string>;
+  update_notes: string[];
+  support_email: string | null;
+  support_whatsapp: string | null;
+  support_telegram: string | null;
 }
 
 /**

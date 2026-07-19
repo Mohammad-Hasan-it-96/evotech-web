@@ -148,6 +148,16 @@ export interface UpdateDeviceAppBody {
   uses_shared_plans?: boolean;
   /** A Products-module slug, or null to unlink. */
   product?: string | null;
+
+  /** Digits and dots only — a suffix reads as 0 and hides the update. */
+  latest_version?: string | null;
+  api_base_url?: string | null;
+  /** Keyed by ABI: `arm64-v8a`, `armeabi-v7a`, `x86_64`, `x86`, `default`. */
+  downloads?: Record<string, string>;
+  update_notes?: string[];
+  support_email?: string | null;
+  support_whatsapp?: string | null;
+  support_telegram?: string | null;
 }
 
 export function updateDeviceApp(id: string, body: UpdateDeviceAppBody) {

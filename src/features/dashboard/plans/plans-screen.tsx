@@ -19,6 +19,7 @@ import {
 import { AppSettingsDialog } from "./app-settings-dialog";
 import { DeletePlanDialog } from "./delete-plan-dialog";
 import { PlanFormDialog } from "./plan-form-dialog";
+import { RemoteConfigDialog } from "./remote-config-dialog";
 
 /**
  * The pricing editor for the consumer apps. These plans used to live in a PHP
@@ -82,6 +83,7 @@ export function PlansScreen() {
         </div>
 
         <div className="ms-auto flex items-center gap-2">
+          {selectedApp ? <RemoteConfigDialog app={selectedApp} /> : null}
           {selectedApp ? <AppSettingsDialog app={selectedApp} /> : null}
           <PlanFormDialog appId={appId} />
         </div>

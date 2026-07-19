@@ -304,8 +304,26 @@
         "done": "Plan deleted",
         "failed": "Could not delete the plan"
       },
+      "config": {
+        "action": "App config",
+        "title": "{app} — what the app fetches at startup",
+        "version": "Current version",
+        "versionHint": "Digits and dots only (e.g. 1.2.0). Users on an older version are offered the update. Leave empty to offer no update at all.",
+        "downloads": "Download links",
+        "downloadsHint": "The APK each device architecture downloads. Leave a row empty to skip it — but fill 'default', or devices that match neither architecture get nothing.",
+        "notes": "What's new",
+        "notesHint": "One line per bullet, shown in the update prompt.",
+        "supportEmail": "Support email",
+        "supportWhatsapp": "WhatsApp number",
+        "supportTelegram": "Telegram link",
+        "baseUrl": "API address (advanced)",
+        "baseUrlHint": "Leave empty unless you are moving this app to a different server. A wrong value here sends every device to the wrong backend, and the app applies it without showing any error.",
+        "submit": "Save",
+        "saved": "Config saved — live within 5 minutes",
+        "failed": "Could not save the config"
+      },
       "app": {
-        "action": "App settings",
+        "action": "Selling terms",
         "title": "{app} settings",
         "label": "Display name",
         "labelHint": "Used in push notifications, so users of this app are never asked to renew another one.",
