@@ -149,6 +149,7 @@
       "subscriptions": "Subscriptions",
       "devices": "App devices",
       "plans": "App plans",
+      "releases": "Releases",
       "clients": "Clients",
       "products": "Products",
       "logout": "Sign out"
@@ -260,6 +261,68 @@
         "confirm": "Decline request",
         "done": "Request declined",
         "failed": "Could not decline the request"
+      }
+    },
+    "releases": {
+      "title": "Releases",
+      "empty": "No releases yet",
+      "count": "{total} release(s)",
+      "release": "Version",
+      "product": "Product",
+      "statusLabel": "Status",
+      "published": "Published",
+      "notPublished": "Not published",
+      "actions": "Actions",
+      "publish": "Publish",
+      "archive": "Archive",
+      "delete": "Delete",
+      "filters": {
+        "all": "All",
+        "draft": "Drafts",
+        "published": "Published",
+        "archived": "Archived"
+      },
+      "status": {
+        "draft": "Draft",
+        "published": "Published",
+        "archived": "Archived"
+      },
+      "create": {
+        "action": "New release",
+        "title": "Create a release",
+        "product": "Product",
+        "selectProduct": "Select a product",
+        "version": "Version",
+        "channel": "Channel",
+        "name": "Title (optional)",
+        "notes": "Release notes",
+        "submit": "Create draft",
+        "done": "Draft created — upload a build next",
+        "failed": "Could not create the release"
+      },
+      "artifacts": {
+        "action": "Builds ({count})",
+        "title": "Builds for {version}",
+        "empty": "No builds uploaded yet. A release cannot be published without one.",
+        "platform": "Platform",
+        "file": "File",
+        "upload": "Upload",
+        "replaceHint": "One build per platform. Uploading the same platform again replaces the current file.",
+        "uploaded": "Build uploaded",
+        "uploadFailed": "Could not upload the build",
+        "delete": "Delete build",
+        "deleted": "Build deleted",
+        "deleteFailed": "Could not delete the build",
+        "downloadCount": "{count} download(s)",
+        "copy": "Copy download link",
+        "notLiveYet": "This link works only once the release is published.",
+        "close": "Close"
+      },
+      "toast": {
+        "published": "Release published — the download link is now live",
+        "archived": "Release archived",
+        "deleted": "Release deleted",
+        "error": "Something went wrong"
       }
     },
     "plans": {

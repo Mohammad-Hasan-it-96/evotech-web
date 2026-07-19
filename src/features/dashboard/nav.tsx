@@ -3,6 +3,7 @@ import {
   CreditCard,
   LayoutDashboard,
   Package,
+  Rocket,
   Smartphone,
   Tags,
   type LucideIcon,
@@ -15,7 +16,8 @@ export interface DashboardNavItem {
     | "clients"
     | "products"
     | "devices"
-    | "plans";
+    | "plans"
+    | "releases";
   href: string;
   icon: LucideIcon;
 }
@@ -29,6 +31,8 @@ export const dashboardNav: DashboardNavItem[] = [
   // Pricing for those apps. Separate from Products' platform plans: these are
   // duration-based, keyed by a string the shipped builds send back.
   { key: "plans", href: "/dashboard/plans", icon: Tags },
+  // The Download Center: versioned builds and the permanent URLs that serve them.
+  { key: "releases", href: "/dashboard/releases", icon: Rocket },
   { key: "clients", href: "/dashboard/clients", icon: Building2 },
   { key: "products", href: "/dashboard/products", icon: Package },
 ];

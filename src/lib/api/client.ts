@@ -21,7 +21,17 @@ export async function apiFetch<T>(
 ): Promise<T> {
   const headers: Record<string, string> = { Accept: "application/json" };
 
-  if (body !== undefined) headers["Content-Type"] = "application/json";
+  /*
+   * FormData is passed through untouched and deliberately gets no Content-Type:
+   * the browser has to set it itself so it can append the multipart boundary.
+   * Setting it here produces a body the server cannot parse, and the failure
+   * looks like a validation error rather than a malformed request.
+   */
+  const isMultipart = body instanceof FormData;
+
+  if (body !== undefined && !isMultipart) {
+    headers["Content-Type"] = "application/json";
+  }
 
   if (auth) {
     const token = getToken();
@@ -31,7 +41,11 @@ export async function apiFetch<T>(
   const res = await fetch(`${API_URL}${path}`, {
     method,
     headers,
-    body: body !== undefined ? JSON.stringify(body) : undefined,
+    body: isMultipart
+      ? (body as FormData)
+      : body !== undefined
+        ? JSON.stringify(body)
+        : undefined,
   });
 
   if (res.status === 204) return undefined as T;
