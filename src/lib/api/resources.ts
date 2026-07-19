@@ -7,6 +7,8 @@ import type {
   DeviceSubscription,
   Paginated,
   Product,
+  Release,
+  ReleaseArtifact,
   Subscription,
 } from "./types";
 
@@ -134,6 +136,98 @@ export function deleteDeviceSubscription(id: string, force = false) {
     `/v1/device-subscriptions/${id}${force ? "?force=1" : ""}`,
     { method: "DELETE" },
   );
+}
+
+// --- Releases (Download Center) ---
+
+export interface ReleaseFilters {
+  product?: string;
+  channel?: string;
+  status?: string;
+  page?: number;
+}
+
+export function fetchReleases(filters: ReleaseFilters = {}) {
+  const params = new URLSearchParams({ per_page: "25" });
+
+  for (const [key, value] of Object.entries(filters)) {
+    if (value !== undefined && value !== "") params.set(key, String(value));
+  }
+
+  return apiFetch<Paginated<Release>>(`/v1/releases?${params.toString()}`);
+}
+
+export function fetchRelease(id: string) {
+  return apiFetch<ApiEnvelope<Release>>(`/v1/releases/${id}`);
+}
+
+export interface CreateReleaseBody {
+  /** A Products-module slug — releases belong to a product, not an app. */
+  product: string;
+  channel: string;
+  version: string;
+  name?: string | null;
+  notes?: string | null;
+}
+
+export function createRelease(body: CreateReleaseBody) {
+  return apiFetch<ApiEnvelope<Release>>("/v1/releases", { method: "POST", body });
+}
+
+/** 422s if the release has no artifacts — there would be nothing to download. */
+export function publishRelease(id: string) {
+  return apiFetch<ApiEnvelope<Release>>(`/v1/releases/${id}/publish`, {
+    method: "POST",
+  });
+}
+
+export function archiveRelease(id: string) {
+  return apiFetch<ApiEnvelope<Release>>(`/v1/releases/${id}/archive`, {
+    method: "POST",
+  });
+}
+
+/** Deletes the release and every stored artifact file with it. */
+export function deleteRelease(id: string) {
+  return apiFetch<void>(`/v1/releases/${id}`, { method: "DELETE" });
+}
+
+/**
+ * Upload a build. One artifact per platform per release — re-uploading the same
+ * platform replaces the stored file rather than adding a second one.
+ *
+ * Extensions are restricted to real distributables: the endpoint serves files
+ * from the platform's own origin, so an `.html` artifact would be script running
+ * as this site.
+ */
+export function uploadArtifact(releaseId: string, file: File, platform: string) {
+  const form = new FormData();
+  form.append("file", file);
+  form.append("platform", platform);
+
+  return apiFetch<ApiEnvelope<ReleaseArtifact>>(
+    `/v1/releases/${releaseId}/artifacts`,
+    { method: "POST", body: form },
+  );
+}
+
+export function deleteArtifact(id: string) {
+  return apiFetch<void>(`/v1/artifacts/${id}`, { method: "DELETE" });
+}
+
+/**
+ * The permanent public download URL for a product's current build on a platform.
+ *
+ * Built client-side rather than returned by the API because it is a stable,
+ * guessable address by design — it names "the latest Android build of X", not a
+ * file, so it keeps working after the next release with no link to reissue. That
+ * is what makes it safe to paste into a message or a cached config file, unlike
+ * the 15-minute signed links used for authenticated self-update.
+ */
+export function publicDownloadUrl(productSlug: string, platform: string) {
+  const base = process.env.NEXT_PUBLIC_API_URL ?? "http://localhost:8000/api";
+
+  return `${base}/v1/downloads/latest/${productSlug}/${platform}`;
 }
 
 // --- Device catalog (apps + their purchasable plans) ---

@@ -170,6 +170,39 @@ export interface DeviceCatalogPlan {
   sort_order: number;
 }
 
+/** One platform's build within a release. */
+export interface ReleaseArtifact {
+  id: string;
+  platform: string;
+  filename: string;
+  size: number;
+  checksum_sha256: string;
+  content_type: string | null;
+  download_count: number;
+  created_at: string | null;
+}
+
+/**
+ * A versioned product release (Download Center).
+ *
+ * `status` is `draft` until published; only a published release is reachable by
+ * products self-updating or by the permanent public download URL. A release
+ * cannot be published without at least one artifact.
+ */
+export interface Release {
+  id: string;
+  version: string;
+  channel: string;
+  name: string | null;
+  notes: string | null;
+  status: string;
+  published_at: string | null;
+  created_at: string | null;
+  artifacts_count?: number;
+  artifacts?: ReleaseArtifact[];
+  product: { slug: string; name: LocalizedText };
+}
+
 /** Thrown for any non-2xx API response, carrying the standard error envelope. */
 export class ApiError extends Error {
   constructor(
