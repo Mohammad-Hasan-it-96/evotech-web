@@ -2,6 +2,8 @@ import { apiFetch } from "./client";
 import type {
   ApiEnvelope,
   Company,
+  DeviceApp,
+  DeviceCatalogPlan,
   DeviceSubscription,
   Paginated,
   Product,
@@ -132,6 +134,78 @@ export function deleteDeviceSubscription(id: string, force = false) {
     `/v1/device-subscriptions/${id}${force ? "?force=1" : ""}`,
     { method: "DELETE" },
   );
+}
+
+// --- Device catalog (apps + their purchasable plans) ---
+
+export function fetchDeviceApps() {
+  return apiFetch<ApiEnvelope<DeviceApp[]>>("/v1/device-apps");
+}
+
+export interface UpdateDeviceAppBody {
+  label?: string;
+  trial_days?: number;
+  uses_shared_plans?: boolean;
+  /** A Products-module slug, or null to unlink. */
+  product?: string | null;
+}
+
+export function updateDeviceApp(id: string, body: UpdateDeviceAppBody) {
+  return apiFetch<ApiEnvelope<DeviceApp>>(`/v1/device-apps/${id}`, {
+    method: "PATCH",
+    body,
+  });
+}
+
+/**
+ * The catalog for one scope. Passing an app id lists that app's own plans;
+ * omitting it lists the shared catalog that the un-namespaced `/api/getPlans`
+ * serves.
+ *
+ * Unlike {@link fetchDevicePlans}, this includes disabled plans — this is the
+ * editor, and a disabled plan is what you go there to re-enable.
+ */
+export function fetchDeviceCatalogPlans(appId?: string | null) {
+  const query = appId ? `?app=${encodeURIComponent(appId)}` : "";
+
+  return apiFetch<ApiEnvelope<DeviceCatalogPlan[]>>(`/v1/device-plans${query}`);
+}
+
+export interface DevicePlanBody {
+  key?: string;
+  app?: string | null;
+  title?: string;
+  description?: string | null;
+  duration_months?: number;
+  price?: number;
+  price_after_discount?: number | null;
+  enabled?: boolean;
+  recommended?: boolean;
+  sort_order?: number;
+}
+
+export function createDevicePlan(body: DevicePlanBody) {
+  return apiFetch<ApiEnvelope<DeviceCatalogPlan>>("/v1/device-plans", {
+    method: "POST",
+    body,
+  });
+}
+
+/** `key` is immutable and silently ignored — re-keying would orphan holders. */
+export function updateDevicePlan(id: string, body: DevicePlanBody) {
+  return apiFetch<ApiEnvelope<DeviceCatalogPlan>>(`/v1/device-plans/${id}`, {
+    method: "PATCH",
+    body,
+  });
+}
+
+/**
+ * Refused with a 422 when any device is subscribed on the plan: deleting it
+ * would resolve their next renewal to a 0-month term. There is no force flag —
+ * disabling is the supported way to retire a price.
+ */
+export function deleteDevicePlan(id: string) {
+  return apiFetch<void>(`/v1/device-plans/${id}`, { method: "DELETE" });
 }
 
 export interface DevicePlan {

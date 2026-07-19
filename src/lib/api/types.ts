@@ -114,6 +114,47 @@ export interface DeviceSubscription {
   updated_at: string | null;
 }
 
+/**
+ * A shipped consumer app and its selling terms.
+ *
+ * `name` and `slug` are read-only: `name` is the literal string the shipped builds
+ * send as `app_name` and every device row is matched on it, and `slug` is the base
+ * URL those builds are pointed at. The API rejects changes to both.
+ */
+export interface DeviceApp {
+  id: string;
+  name: string;
+  slug: string;
+  label: string;
+  trial_days: number;
+  /** False = this app sells its own catalog; true = it reads the shared list. */
+  uses_shared_plans: boolean;
+  plans_count?: number;
+}
+
+/**
+ * A purchasable plan in the device catalog — the admin view, including disabled
+ * plans. Distinct from `Plan`, which is the Products module's platform plan.
+ */
+export interface DeviceCatalogPlan {
+  /** The uuid; addresses this row for editing. */
+  id: string;
+  /**
+   * The plan key the app sends back and `DeviceSubscription.plan_id` stores.
+   * Immutable, and what an activation must be sent — never `id`.
+   */
+  key: string;
+  is_shared: boolean;
+  title: string;
+  description: string | null;
+  duration_months: number;
+  price: number;
+  price_after_discount: number | null;
+  enabled: boolean;
+  recommended: boolean;
+  sort_order: number;
+}
+
 /** Thrown for any non-2xx API response, carrying the standard error envelope. */
 export class ApiError extends Error {
   constructor(
