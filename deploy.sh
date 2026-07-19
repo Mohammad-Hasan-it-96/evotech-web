@@ -155,13 +155,26 @@ until curl -fsS -o /dev/null --max-time 5 "http://127.0.0.1:${PORT}${HEALTH_PATH
 done
 ok "http://127.0.0.1:${PORT}${HEALTH_PATH} → 200"
 
-# The apps' remote config: a static file, but the file that tells Fawateer which
-# API to talk to. If it 404s, the app silently falls back to its baked-in URL —
-# so a broken deploy here looks like nothing at all.
-if curl -fsS -o /dev/null --max-time 5 "http://127.0.0.1:${PORT}/config/fawateer.json"; then
-  ok "/config/fawateer.json → 200"
+# The apps' remote config — the response that tells Fawateer which API to talk to.
+# If it 404s, the app silently falls back to its baked-in URL, so a broken deploy
+# here looks like nothing at all.
+#
+# The body is checked, not just the status. Since this became a route handler that
+# falls back to a committed default, it answers 200 even when the API is
+# unreachable — so a status-only check can no longer tell "serving live config"
+# from "serving a stale constant".
+config_body=$(curl -fsS --max-time 5 "http://127.0.0.1:${PORT}/config/fawateer.json" || true)
+
+if printf '%s' "$config_body" | grep -q '"base_url"'; then
+  config_source=$(curl -fsS -o /dev/null -D - --max-time 5 "http://127.0.0.1:${PORT}/config/fawateer.json" 2>/dev/null \
+    | tr -d '\r' | awk -F': ' 'tolower($1)=="x-config-source"{print $2}')
+  if [ "$config_source" = "fallback" ]; then
+    warn "/config/fawateer.json is serving the BUILT-IN FALLBACK — the API is unreachable, so dashboard edits are not live."
+  else
+    ok "/config/fawateer.json → 200 (from the API)"
+  fi
 else
-  warn "/config/fawateer.json is NOT being served — the Fawateer app would fall back to its baked-in API URL."
+  warn "/config/fawateer.json has no base_url — the Fawateer app would fall back to its baked-in API URL."
 fi
 
 printf '\n%s  Deployed %s on port %s%s\n\n' "$GREEN" "$after" "$PORT" "$OFF"
