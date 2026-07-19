@@ -148,6 +148,7 @@
       "overview": "Overview",
       "subscriptions": "Subscriptions",
       "devices": "App devices",
+      "plans": "App plans",
       "clients": "Clients",
       "products": "Products",
       "logout": "Sign out"
@@ -259,6 +260,62 @@
         "confirm": "Decline request",
         "done": "Request declined",
         "failed": "Could not decline the request"
+      }
+    },
+    "plans": {
+      "title": "App plans",
+      "shared": "Shared",
+      "empty": "No plans in this catalog yet",
+      "plan": "Plan",
+      "duration": "Duration",
+      "price": "Price",
+      "statusLabel": "Status",
+      "actions": "Actions",
+      "monthsValue": "{count, plural, one {# month} other {# months}}",
+      "enabled": "On sale",
+      "disabled": "Hidden",
+      "recommended": "Recommended",
+      "readsSharedNotice": "{app} currently sells the shared catalog. Plans you add here are not offered to its users until you switch it to its own catalog in settings.",
+      "form": {
+        "new": "New plan",
+        "edit": "Edit",
+        "newTitle": "Add a plan",
+        "editTitle": "Edit plan",
+        "key": "Plan key",
+        "keyHint": "What the app sends back when a user picks this plan. Lowercase letters, numbers and underscores.",
+        "keyLocked": "The key cannot be changed — devices already subscribed store it, and their renewals resolve by matching it.",
+        "planTitle": "Title shown in the app",
+        "description": "Description",
+        "months": "Months",
+        "price": "Price",
+        "discount": "Price after discount",
+        "enabled": "On sale in the app",
+        "recommended": "Highlight as recommended",
+        "submit": "Save",
+        "created": "Plan added",
+        "saved": "Plan saved",
+        "failed": "Could not save the plan"
+      },
+      "delete": {
+        "action": "Delete plan",
+        "title": "Delete this plan?",
+        "warn": "This cannot be undone. If any device is subscribed on this plan the deletion is refused — disable the plan instead, which hides it from the app while existing subscribers keep renewing normally.",
+        "confirm": "Delete permanently",
+        "done": "Plan deleted",
+        "failed": "Could not delete the plan"
+      },
+      "app": {
+        "action": "App settings",
+        "title": "{app} settings",
+        "label": "Display name",
+        "labelHint": "Used in push notifications, so users of this app are never asked to renew another one.",
+        "trialDays": "Free trial (days)",
+        "trialHint": "0 means no trial. Only granted once, the first time a device registers.",
+        "usesShared": "Sell the shared catalog",
+        "usesSharedHint": "Uncheck to sell this app's own plans. With it unchecked and no plans configured, the app offers nothing.",
+        "submit": "Save",
+        "saved": "Settings saved",
+        "failed": "Could not save the settings"
       }
     },
     "clients": {
