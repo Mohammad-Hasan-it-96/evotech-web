@@ -219,6 +219,7 @@
       "emptyPending": "لا توجد طلبات معلّقة",
       "count": "{total} جهاز",
       "user": "المستخدم",
+      "googleAccount": "النسخ الاحتياطي",
       "app": "التطبيق",
       "statusLabel": "الحالة",
       "requested": "المطلوب / الخطة",

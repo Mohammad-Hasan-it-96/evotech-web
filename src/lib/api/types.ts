@@ -97,6 +97,14 @@ export interface DeviceSubscription {
   device_id: string | null;
   full_name: string | null;
   phone: string | null;
+  /**
+   * The Google account holding this device's Drive backups.
+   *
+   * Full address here — this comes from the staff endpoint, behind auth. The
+   * public `check_device` returns it masked, because a device id is not a secret
+   * and would otherwise be enough to read a customer's email.
+   */
+  google_account: string | null;
   is_verified: boolean;
   is_active: boolean;
   is_trial: boolean;

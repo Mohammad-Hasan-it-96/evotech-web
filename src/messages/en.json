@@ -219,6 +219,7 @@
       "emptyPending": "No pending requests — you're all caught up",
       "count": "{total} device(s)",
       "user": "User",
+      "googleAccount": "Backups",
       "app": "App",
       "statusLabel": "Status",
       "requested": "Requested / plan",
