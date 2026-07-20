@@ -275,6 +275,7 @@
       "actions": "Actions",
       "publish": "Publish",
       "archive": "Archive",
+      "unarchive": "Restore",
       "delete": "Delete",
       "filters": {
         "all": "All",
@@ -329,6 +330,7 @@
       "toast": {
         "published": "Release published — the download link is now live",
         "archived": "Release archived",
+        "unarchived": "Release restored as a draft — publish it to go live",
         "deleted": "Release deleted",
         "error": "Something went wrong"
       }

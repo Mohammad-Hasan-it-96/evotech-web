@@ -187,6 +187,19 @@ export function archiveRelease(id: string) {
   });
 }
 
+/**
+ * Bring an archived release back as a draft.
+ *
+ * Returns to draft rather than straight to published: archiving the wrong row is
+ * the usual reason to undo, and restoring must not silently put a build back on
+ * the public download URL. Publish again to make it live.
+ */
+export function unarchiveRelease(id: string) {
+  return apiFetch<ApiEnvelope<Release>>(`/v1/releases/${id}/unarchive`, {
+    method: "POST",
+  });
+}
+
 /** Deletes the release and every stored artifact file with it. */
 export function deleteRelease(id: string) {
   return apiFetch<void>(`/v1/releases/${id}`, { method: "DELETE" });
