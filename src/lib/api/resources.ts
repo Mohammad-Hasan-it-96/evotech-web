@@ -218,6 +218,47 @@ export function uploadArtifact(
   );
 }
 
+/** A build sitting on the server, staged for import but not yet registered. */
+export interface IncomingFile {
+  filename: string;
+  size: number;
+  modified_at: string;
+}
+
+/**
+ * Builds waiting in the server's incoming directory.
+ *
+ * Not scoped to a release — a staged file has no release yet, and picking one is
+ * what the import step is for.
+ */
+export function fetchIncomingFiles() {
+  return apiFetch<ApiEnvelope<IncomingFile[]>>("/v1/artifacts/incoming");
+}
+
+/**
+ * Register a build already placed on the server, instead of uploading it.
+ *
+ * The escape hatch for files the browser cannot deliver: the CDN in front of the
+ * API measures its origin timeout against the entire request body, so a large
+ * build on a slow uplink is cut off mid-transfer regardless of server config.
+ * Dropping the file onto the server directly avoids that path, and this endpoint
+ * does everything the upload would have — checksum, size, ledger and all.
+ */
+export function importArtifact(
+  releaseId: string,
+  filename: string,
+  platform: string,
+  variant = "",
+) {
+  return apiFetch<ApiEnvelope<ReleaseArtifact>>(
+    `/v1/releases/${releaseId}/artifacts/import`,
+    {
+      method: "POST",
+      body: { filename, platform, ...(variant === "" ? {} : { variant }) },
+    },
+  );
+}
+
 export function deleteArtifact(id: string) {
   return apiFetch<void>(`/v1/artifacts/${id}`, { method: "DELETE" });
 }
