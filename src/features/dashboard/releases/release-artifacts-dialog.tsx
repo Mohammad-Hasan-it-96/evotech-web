@@ -1,13 +1,23 @@
 "use client";
 
 import * as React from "react";
-import { Check, Copy, Loader2, Package, Trash2, Upload } from "lucide-react";
+import {
+  Check,
+  Copy,
+  HardDriveDownload,
+  Loader2,
+  Package,
+  Trash2,
+  Upload,
+} from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 import {
   deleteArtifact,
+  fetchIncomingFiles,
   fetchRelease,
+  importArtifact,
   publicDownloadUrl,
   uploadArtifact,
 } from "@/lib/api/resources";
@@ -83,6 +93,7 @@ export function ReleaseArtifactsDialog({ release }: { release: Release }) {
   const [platform, setPlatform] = React.useState<string>("android");
   const [variant, setVariant] = React.useState<string>("");
   const [file, setFile] = React.useState<File | null>(null);
+  const [stagedFile, setStagedFile] = React.useState<string>("");
   const [copied, setCopied] = React.useState<string | null>(null);
   const fileInput = React.useRef<HTMLInputElement>(null);
 
@@ -96,9 +107,22 @@ export function ReleaseArtifactsDialog({ release }: { release: Release }) {
 
   const artifacts = data?.data.artifacts ?? [];
 
+  // Fetched alongside the artifacts so the staged list reflects what is on the
+  // server right now — a file transferred while this dialog sat open would
+  // otherwise be invisible until a reload.
+  const { data: incoming } = useQuery({
+    queryKey: ["artifacts", "incoming"],
+    queryFn: fetchIncomingFiles,
+    enabled: open,
+  });
+
+  const staged = incoming?.data ?? [];
+
   const invalidate = async () => {
     await queryClient.invalidateQueries({ queryKey: ["release", release.id] });
     await queryClient.invalidateQueries({ queryKey: ["releases"] });
+    // Importing consumes the staged file, so the list it came from is stale.
+    await queryClient.invalidateQueries({ queryKey: ["artifacts", "incoming"] });
   };
 
   const upload = useMutation({
@@ -115,6 +139,19 @@ export function ReleaseArtifactsDialog({ release }: { release: Release }) {
     // allowed list, and an oversized file names the limit.
     onError: (error) =>
       toast.error(error instanceof ApiError ? error.message : t("uploadFailed")),
+  });
+
+  const importStaged = useMutation({
+    mutationFn: () => importArtifact(release.id, stagedFile, platform, variant),
+    onSuccess: async () => {
+      await invalidate();
+      toast.success(t("imported"));
+      // The file is gone from the server now; leaving it selected would offer a
+      // second import of something that no longer exists.
+      setStagedFile("");
+    },
+    onError: (error) =>
+      toast.error(error instanceof ApiError ? error.message : t("importFailed")),
   });
 
   const remove = useMutation({
@@ -244,6 +281,48 @@ export function ReleaseArtifactsDialog({ release }: { release: Release }) {
               )}
               {t("upload")}
             </Button>
+
+            {/* The same platform and variant above apply — only where the bytes
+                come from differs. A build too large for the browser to deliver is
+                dropped onto the server and registered from here. */}
+            <div className="space-y-2 border-t border-border/60 pt-3">
+              <Label>{t("staged")}</Label>
+
+              {staged.length === 0 ? (
+                <p className="text-xs text-muted-foreground">
+                  {t("noStaged", { path: "storage/app/private/downloads/incoming" })}
+                </p>
+              ) : (
+                <div className="flex items-center gap-2">
+                  <Select value={stagedFile} onValueChange={setStagedFile}>
+                    <SelectTrigger className="flex-1">
+                      <SelectValue placeholder={t("chooseStaged")} />
+                    </SelectTrigger>
+                    <SelectContent>
+                      {staged.map((entry) => (
+                        <SelectItem key={entry.filename} value={entry.filename}>
+                          {entry.filename} · {formatSize(entry.size)}
+                        </SelectItem>
+                      ))}
+                    </SelectContent>
+                  </Select>
+
+                  <Button
+                    size="sm"
+                    variant="secondary"
+                    onClick={() => importStaged.mutate()}
+                    disabled={stagedFile === "" || importStaged.isPending}
+                  >
+                    {importStaged.isPending ? (
+                      <Loader2 className="size-4 animate-spin" />
+                    ) : (
+                      <HardDriveDownload className="size-4" />
+                    )}
+                    {t("import")}
+                  </Button>
+                </div>
+              )}
+            </div>
           </div>
         </div>
 

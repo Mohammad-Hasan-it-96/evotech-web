@@ -275,6 +275,7 @@
       "actions": "Actions",
       "publish": "Publish",
       "archive": "Archive",
+      "unarchive": "Restore",
       "delete": "Delete",
       "filters": {
         "all": "All",
@@ -318,11 +319,18 @@
         "downloadCount": "{count} download(s)",
         "copy": "Copy download link",
         "notLiveYet": "This link works only once the release is published.",
-        "close": "Close"
+        "close": "Close",
+        "staged": "Or import a build staged on the server",
+        "chooseStaged": "Choose a staged file",
+        "import": "Import",
+        "imported": "Build imported",
+        "importFailed": "Could not import that build.",
+        "noStaged": "No builds staged. Upload one to {path} on the server, then reopen this dialog."
       },
       "toast": {
         "published": "Release published — the download link is now live",
         "archived": "Release archived",
+        "unarchived": "Release restored as a draft — publish it to go live",
         "deleted": "Release deleted",
         "error": "Something went wrong"
       }

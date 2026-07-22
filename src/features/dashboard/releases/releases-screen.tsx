@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Archive, Loader2, Rocket, Trash2 } from "lucide-react";
+import { Archive, ArchiveRestore, Loader2, Rocket, Trash2 } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -10,6 +10,7 @@ import {
   deleteRelease,
   fetchReleases,
   publishRelease,
+  unarchiveRelease,
   type ReleaseFilters,
 } from "@/lib/api/resources";
 import { ApiError, type Release } from "@/lib/api/types";
@@ -140,6 +141,15 @@ function ReleaseRow({ release }: { release: Release }) {
     onError: () => toast.error(t("toast.error")),
   });
 
+  const unarchive = useMutation({
+    mutationFn: () => unarchiveRelease(release.id),
+    onSuccess: async () => {
+      await invalidate();
+      toast.success(t("toast.unarchived"));
+    },
+    onError: () => toast.error(t("toast.error")),
+  });
+
   const remove = useMutation({
     mutationFn: () => deleteRelease(release.id),
     onSuccess: async () => {
@@ -149,7 +159,11 @@ function ReleaseRow({ release }: { release: Release }) {
     onError: () => toast.error(t("toast.error")),
   });
 
-  const busy = publish.isPending || archive.isPending || remove.isPending;
+  const busy =
+    publish.isPending ||
+    archive.isPending ||
+    unarchive.isPending ||
+    remove.isPending;
 
   return (
     <TableRow>
@@ -181,8 +195,21 @@ function ReleaseRow({ release }: { release: Release }) {
         <div className="flex items-center justify-end gap-1">
           <ReleaseArtifactsDialog release={release} />
 
-          {/* Publishing is only meaningful for a draft; an archived release is
-              deliberately a terminal state here. */}
+          {/* Publishing is gated on draft, so archiving used to strand a release
+              with no way back and no way to serve its builds again. Restoring
+              returns it to draft — publishing stays a deliberate second step. */}
+          {release.status === "archived" ? (
+            <Button
+              size="sm"
+              variant="outline"
+              onClick={() => unarchive.mutate()}
+              disabled={busy}
+            >
+              <ArchiveRestore className="size-4" />
+              {t("unarchive")}
+            </Button>
+          ) : null}
+
           {release.status === "draft" ? (
             <Button
               size="sm"

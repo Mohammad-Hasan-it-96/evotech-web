@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Loader2 } from "lucide-react";
+import { Loader2, TriangleAlert } from "lucide-react";
 import { useQuery } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { fetchDeviceApps, fetchDeviceCatalogPlans } from "@/lib/api/resources";
@@ -135,9 +135,13 @@ function ScopeNotice({ app }: { app: DeviceApp | null }) {
     return null;
   }
 
+  // Amber rather than muted: this says the work on screen is inert, which is not
+  // the same kind of statement as the hints it used to sit alongside. Styled as
+  // one of them, it was read as one of them and missed.
   return (
-    <div className="rounded-lg border border-border/60 bg-muted/50 p-3 text-sm text-muted-foreground">
-      {t("readsSharedNotice", { app: app.label })}
+    <div className="flex items-start gap-2 rounded-lg border border-amber-500/40 bg-amber-500/10 p-3 text-sm text-amber-900 dark:text-amber-200">
+      <TriangleAlert className="mt-0.5 size-4 shrink-0" />
+      <span>{t("readsSharedNotice", { app: app.label })}</span>
     </div>
   );
 }

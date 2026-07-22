@@ -187,6 +187,19 @@ export function archiveRelease(id: string) {
   });
 }
 
+/**
+ * Bring an archived release back as a draft.
+ *
+ * Returns to draft rather than straight to published: archiving the wrong row is
+ * the usual reason to undo, and restoring must not silently put a build back on
+ * the public download URL. Publish again to make it live.
+ */
+export function unarchiveRelease(id: string) {
+  return apiFetch<ApiEnvelope<Release>>(`/v1/releases/${id}/unarchive`, {
+    method: "POST",
+  });
+}
+
 /** Deletes the release and every stored artifact file with it. */
 export function deleteRelease(id: string) {
   return apiFetch<void>(`/v1/releases/${id}`, { method: "DELETE" });
@@ -215,6 +228,47 @@ export function uploadArtifact(
   return apiFetch<ApiEnvelope<ReleaseArtifact>>(
     `/v1/releases/${releaseId}/artifacts`,
     { method: "POST", body: form },
+  );
+}
+
+/** A build sitting on the server, staged for import but not yet registered. */
+export interface IncomingFile {
+  filename: string;
+  size: number;
+  modified_at: string;
+}
+
+/**
+ * Builds waiting in the server's incoming directory.
+ *
+ * Not scoped to a release — a staged file has no release yet, and picking one is
+ * what the import step is for.
+ */
+export function fetchIncomingFiles() {
+  return apiFetch<ApiEnvelope<IncomingFile[]>>("/v1/artifacts/incoming");
+}
+
+/**
+ * Register a build already placed on the server, instead of uploading it.
+ *
+ * The escape hatch for files the browser cannot deliver: the CDN in front of the
+ * API measures its origin timeout against the entire request body, so a large
+ * build on a slow uplink is cut off mid-transfer regardless of server config.
+ * Dropping the file onto the server directly avoids that path, and this endpoint
+ * does everything the upload would have — checksum, size, ledger and all.
+ */
+export function importArtifact(
+  releaseId: string,
+  filename: string,
+  platform: string,
+  variant = "",
+) {
+  return apiFetch<ApiEnvelope<ReleaseArtifact>>(
+    `/v1/releases/${releaseId}/artifacts/import`,
+    {
+      method: "POST",
+      body: { filename, platform, ...(variant === "" ? {} : { variant }) },
+    },
   );
 }
 
