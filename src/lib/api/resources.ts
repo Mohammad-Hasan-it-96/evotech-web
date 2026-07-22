@@ -4,6 +4,7 @@ import type {
   Company,
   DeviceApp,
   DeviceCatalogPlan,
+  DeviceNotification,
   DeviceSubscription,
   Paginated,
   Product,
@@ -295,6 +296,47 @@ export function publicDownloadUrl(
   const suffix = variant === "" ? "" : `/${variant}`;
 
   return `${base}/v1/downloads/latest/${productSlug}/${platform}${suffix}`;
+}
+
+// --- Device notifications (custom offers/updates sent to the apps) ---
+
+export function fetchDeviceNotifications(page = 1) {
+  return apiFetch<Paginated<DeviceNotification>>(
+    `/v1/device-notifications?page=${page}`,
+  );
+}
+
+/**
+ * Send a custom notification to a single device — the dry run an operator does on
+ * their own phone before broadcasting. `device` is that device's id (uuid).
+ * Refused if the device has no push token.
+ */
+export function sendTestNotification(body: {
+  device: string;
+  title: string;
+  body: string;
+}) {
+  return apiFetch<ApiEnvelope<DeviceNotification>>(
+    "/v1/device-notifications/test",
+    { method: "POST", body },
+  );
+}
+
+/**
+ * Broadcast a custom notification to an app's devices that carry a push token.
+ * `app` is the app name (SmartAgent, Fawateer); `active_only` narrows it to live
+ * subscribers. The returned `recipients` is how many devices it was dispatched to.
+ */
+export function broadcastNotification(body: {
+  app: string;
+  title: string;
+  body: string;
+  active_only?: boolean;
+}) {
+  return apiFetch<ApiEnvelope<DeviceNotification>>(
+    "/v1/device-notifications/broadcast",
+    { method: "POST", body },
+  );
 }
 
 // --- Device catalog (apps + their purchasable plans) ---

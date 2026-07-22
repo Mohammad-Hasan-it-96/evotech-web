@@ -2,6 +2,7 @@ import {
   Building2,
   CreditCard,
   LayoutDashboard,
+  Megaphone,
   Package,
   Rocket,
   Smartphone,
@@ -17,7 +18,8 @@ export interface DashboardNavItem {
     | "products"
     | "devices"
     | "plans"
-    | "releases";
+    | "releases"
+    | "notifications";
   href: string;
   icon: LucideIcon;
 }
@@ -33,6 +35,8 @@ export const dashboardNav: DashboardNavItem[] = [
   { key: "plans", href: "/dashboard/plans", icon: Tags },
   // The Download Center: versioned builds and the permanent URLs that serve them.
   { key: "releases", href: "/dashboard/releases", icon: Rocket },
+  // Custom push: offers, updates, announcements — test to one device, then broadcast.
+  { key: "notifications", href: "/dashboard/notifications", icon: Megaphone },
   { key: "clients", href: "/dashboard/clients", icon: Building2 },
   { key: "products", href: "/dashboard/products", icon: Package },
 ];

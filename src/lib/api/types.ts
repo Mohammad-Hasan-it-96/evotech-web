@@ -115,6 +115,28 @@ export interface DeviceSubscription {
 }
 
 /**
+ * A custom notification an operator sent — an offer, update or announcement — and
+ * the record that it happened.
+ *
+ * `scope` is `"test"` (a dry run to a single device) or `"broadcast"` (an app's
+ * audience). `recipients` is the number of devices the message was dispatched to
+ * (those carrying a push token) — a reach count, not a delivery guarantee.
+ */
+export interface DeviceNotification {
+  id: string;
+  app_name: string | null;
+  scope: "test" | "broadcast";
+  active_only: boolean;
+  title: string;
+  body: string;
+  type: string;
+  recipients: number;
+  target_device_id: string | null;
+  sent_by_name: string | null;
+  created_at: string | null;
+}
+
+/**
  * A shipped consumer app and its selling terms.
  *
  * `name` and `slug` are read-only: `name` is the literal string the shipped builds
