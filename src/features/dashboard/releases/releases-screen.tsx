@@ -1,7 +1,7 @@
 "use client";
 
 import * as React from "react";
-import { Archive, ArchiveRestore, Loader2, Rocket, Trash2 } from "lucide-react";
+import { Archive, ArchiveRestore, Loader2, Trash2 } from "lucide-react";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 import { useLocale, useTranslations } from "next-intl";
 import { toast } from "sonner";
@@ -9,11 +9,10 @@ import {
   archiveRelease,
   deleteRelease,
   fetchReleases,
-  publishRelease,
   unarchiveRelease,
   type ReleaseFilters,
 } from "@/lib/api/resources";
-import { ApiError, type Release } from "@/lib/api/types";
+import { type Release } from "@/lib/api/types";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import {
@@ -25,6 +24,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { CreateReleaseDialog } from "./create-release-dialog";
+import { PublishReleaseDialog } from "./publish-release-dialog";
 import { ReleaseArtifactsDialog } from "./release-artifacts-dialog";
 import { pickText } from "../helpers";
 
@@ -120,18 +120,6 @@ function ReleaseRow({ release }: { release: Release }) {
   const invalidate = () =>
     queryClient.invalidateQueries({ queryKey: ["releases"] });
 
-  const publish = useMutation({
-    mutationFn: () => publishRelease(release.id),
-    onSuccess: async () => {
-      await invalidate();
-      toast.success(t("toast.published"));
-    },
-    // Verbatim: the refusal here is "no artifacts yet", which tells the operator
-    // exactly what to do next.
-    onError: (error) =>
-      toast.error(error instanceof ApiError ? error.message : t("toast.error")),
-  });
-
   const archive = useMutation({
     mutationFn: () => archiveRelease(release.id),
     onSuccess: async () => {
@@ -160,7 +148,6 @@ function ReleaseRow({ release }: { release: Release }) {
   });
 
   const busy =
-    publish.isPending ||
     archive.isPending ||
     unarchive.isPending ||
     remove.isPending;
@@ -211,14 +198,7 @@ function ReleaseRow({ release }: { release: Release }) {
           ) : null}
 
           {release.status === "draft" ? (
-            <Button
-              size="sm"
-              onClick={() => publish.mutate()}
-              disabled={busy}
-            >
-              <Rocket className="size-4" />
-              {t("publish")}
-            </Button>
+            <PublishReleaseDialog release={release} disabled={busy} />
           ) : null}
 
           {release.status === "published" ? (

@@ -321,6 +321,12 @@
       "notPublished": "Not published",
       "actions": "Actions",
       "publish": "Publish",
+      "publishDialog": {
+        "title": "Publish {version}",
+        "description": "The download links will serve this build immediately.",
+        "syncVersion": "Also set the app's update version to {version}",
+        "syncHint": "The app compares this number to decide whether to prompt for an update. Ignored if the version isn't digits and dots."
+      },
       "archive": "Archive",
       "unarchive": "Restore",
       "delete": "Delete",

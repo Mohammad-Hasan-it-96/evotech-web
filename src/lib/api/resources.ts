@@ -176,9 +176,16 @@ export function createRelease(body: CreateReleaseBody) {
 }
 
 /** 422s if the release has no artifacts — there would be nothing to download. */
-export function publishRelease(id: string) {
+/**
+ * Publish a release. `syncAppVersion` also aligns the linked consumer app's
+ * advertised update version (`latest_version`) to this release's version — so
+ * publishing and announcing the update happen in one step. Skipped server-side if
+ * the version isn't digits-and-dots (which the apps can't compare).
+ */
+export function publishRelease(id: string, syncAppVersion = false) {
   return apiFetch<ApiEnvelope<Release>>(`/v1/releases/${id}/publish`, {
     method: "POST",
+    body: { sync_app_version: syncAppVersion },
   });
 }
 
