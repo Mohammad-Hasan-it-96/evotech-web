@@ -150,6 +150,7 @@
       "devices": "App devices",
       "plans": "App plans",
       "releases": "Releases",
+      "notifications": "Notifications",
       "clients": "Clients",
       "products": "Products",
       "logout": "Sign out"
@@ -261,6 +262,52 @@
         "confirm": "Decline request",
         "done": "Request declined",
         "failed": "Could not decline the request"
+      }
+    },
+    "notifications": {
+      "title": "Notifications",
+      "intro": "Send offers, updates and announcements to the apps. Test on your own phone first, then broadcast to everyone.",
+      "messageTitle": "Title",
+      "messageTitlePlaceholder": "e.g. Special offer",
+      "messageBody": "Message",
+      "messageBodyPlaceholder": "e.g. 20% off this week only",
+      "confirmBroadcast": "Send this notification to every {app} device? This cannot be undone.",
+      "test": {
+        "heading": "1. Test on one device",
+        "hint": "Send to your own phone first to see how it looks.",
+        "searchPlaceholder": "Search by name or phone…",
+        "search": "Search",
+        "noResults": "No devices match that search.",
+        "selected": "Selected:",
+        "send": "Send test"
+      },
+      "broadcast": {
+        "heading": "2. Broadcast",
+        "hint": "Send to every device of the chosen app that has a push token.",
+        "app": "App",
+        "appPlaceholder": "Choose an app",
+        "activeOnly": "Active subscribers only",
+        "warning": "This reaches everyone. Send a test first.",
+        "send": "Broadcast to all"
+      },
+      "history": {
+        "heading": "Sent",
+        "empty": "Nothing sent yet.",
+        "scope": "Type",
+        "app": "App",
+        "message": "Message",
+        "recipients": "Devices",
+        "sentBy": "By",
+        "sentAt": "When",
+        "scopes": {
+          "test": "Test",
+          "broadcast": "Broadcast"
+        }
+      },
+      "toast": {
+        "testSent": "Test sent to {device}",
+        "broadcastSent": "Sent to {count} device(s)",
+        "error": "Something went wrong"
       }
     },
     "releases": {
