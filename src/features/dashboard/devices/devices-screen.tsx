@@ -146,6 +146,14 @@ function DeviceRow({ device }: { device: DeviceSubscription }) {
         <div className="mt-0.5 font-mono text-[11px] text-muted-foreground/70">
           {device.device_id ?? "—"}
         </div>
+        {/* Only when set, which is the minority of rows — it appears once the
+            user has actually linked Drive. Shown so support can answer "which
+            account are my backups on?" without opening anything. */}
+        {device.google_account ? (
+          <div className="mt-0.5 text-[11px] text-muted-foreground" dir="ltr">
+            {t("googleAccount")}: {device.google_account}
+          </div>
+        ) : null}
       </TableCell>
 
       <TableCell>{device.app_name ?? "—"}</TableCell>
