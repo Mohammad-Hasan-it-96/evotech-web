@@ -8,6 +8,8 @@ import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/reveal";
 import { getCatalog, getProduct } from "@/lib/catalog";
+import { getDeviceApp } from "@/content/device-apps";
+import { DeviceAppSection } from "@/components/device-app-section";
 import { localized } from "@/content/types";
 import { routing, type Locale } from "@/i18n/routing";
 import { cn } from "@/lib/utils";
@@ -44,6 +46,7 @@ export default async function ProductDetailPage({
   if (!product) notFound();
 
   const t = await getTranslations();
+  const deviceApp = getDeviceApp(product.slug);
   const Arrow = locale === "ar" ? ArrowLeft : ArrowRight;
   const Back = locale === "ar" ? ArrowRight : ArrowLeft;
 
@@ -78,6 +81,8 @@ export default async function ProductDetailPage({
           {localized(product.description, locale)}
         </p>
       </Reveal>
+
+      {deviceApp && <DeviceAppSection app={deviceApp} locale={locale} />}
 
       <Reveal delay={0.1}>
         <div className="mt-10">

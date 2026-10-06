@@ -45,17 +45,16 @@ export const catalogFallback: CatalogProduct[] = [
     slug: "ledger",
     icon: "book",
     featured: true,
-    name: { ar: "دفتر الحسابات", en: "Ledger" },
-    tagline: { ar: "دفتر حساباتك في جيبك", en: "Your accounts, in your pocket" },
+    // The دفتر حسابات app. Mirrors evotech-core migration 2026_10_06_130000; its
+    // prices are device plans (see src/content/device-apps.ts), not company plans.
+    name: { ar: "دفتر حسابات", en: "Daftar Hesabat" },
+    tagline: { ar: "دفتر الديون صار على موبايلك", en: "The debt notebook for your shop, on your phone" },
     description: {
-      ar: "سجّل المقبوضات والمدفوعات وتابع أرصدة العملاء والموردين.",
-      en: "Record income and expenses, track customer and supplier balances.",
+      ar: "سجّل ديون زبائنك ودفعاتهم، واعرف رصيد كل زبون فوراً. مجاني بلا حدود ويعمل بلا إنترنت، وبياناتك تبقى على هاتفك. Pro يضيف تذكير واتساب، ونسخاً احتياطياً إلى Google Drive، وتحويل الليرة الجديدة.",
+      en: "Record the debts and payments of your customers and see every balance instantly. Free with no limits, works offline, and your data stays on your phone. Pro adds WhatsApp reminders, Google Drive backup and the new-lira conversion.",
     },
-    platforms: ["Android", "iOS"],
-    plans: [
-      { id: "ledger-basic", name: { ar: "الأساسية", en: "Basic" }, price: 15, currency: "USD", billingPeriod: "monthly", isPopular: false, features: [{ ar: "حساب واحد", en: "1 account" }] },
-      { id: "ledger-pro", name: { ar: "الاحترافية", en: "Pro" }, price: 39, currency: "USD", billingPeriod: "monthly", isPopular: true, features: [{ ar: "حسابات متعددة", en: "Multiple accounts" }, { ar: "تقارير شهرية", en: "Monthly reports" }] },
-    ],
+    platforms: ["Android"],
+    plans: [],
   },
   {
     slug: "restaurant",

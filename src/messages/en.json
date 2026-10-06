@@ -133,6 +133,22 @@
     "contactBody": "For any question, or to request deletion of your data:",
     "notFound": "No privacy policy for this product"
   },
+  "deviceApp": {
+    "download": "Download the app",
+    "version": "Version {version} • Android",
+    "comingSoon": "Ask for the download link on WhatsApp",
+    "freeTitle": "Free — forever",
+    "freeSubtitle": "The full notebook, unlimited and offline.",
+    "proTitle": "Pro",
+    "proSubtitle": "Features that save you time and protect your data.",
+    "plansTitle": "Pro pricing",
+    "duration": "{months, plural, one {1 month} other {# months}}",
+    "recommended": "Best value",
+    "trial": "Try Pro free for {days} days from inside the app.",
+    "plansUnavailable": "Current prices are shown inside the app.",
+    "paymentTitle": "Payment",
+    "privacy": "Privacy policy"
+  },
   "footer": {
     "tagline": "Integrated software that runs your business, smarter.",
     "productsTitle": "Products",

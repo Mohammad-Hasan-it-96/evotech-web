@@ -133,6 +133,22 @@
     "contactBody": "لأي سؤال أو لطلب حذف بياناتك:",
     "notFound": "لا توجد سياسة خصوصية لهذا المنتج"
   },
+  "deviceApp": {
+    "download": "تنزيل التطبيق",
+    "version": "الإصدار {version} • أندرويد",
+    "comingSoon": "اطلب رابط التنزيل عبر واتساب",
+    "freeTitle": "مجاني — للأبد",
+    "freeSubtitle": "الدفتر كامل، بلا حدود وبلا إنترنت.",
+    "proTitle": "Pro",
+    "proSubtitle": "ميزات تختصر وقتك وتحمي بياناتك.",
+    "plansTitle": "أسعار Pro",
+    "duration": "{months, plural, one {شهر واحد} two {شهران} few {# أشهر} many {# شهراً} other {# شهر}}",
+    "recommended": "الأفضل قيمة",
+    "trial": "جرّب Pro مجاناً {days} يوماً من داخل التطبيق.",
+    "plansUnavailable": "الأسعار الحالية معروضة داخل التطبيق.",
+    "paymentTitle": "طرق الدفع",
+    "privacy": "سياسة الخصوصية"
+  },
   "footer": {
     "tagline": "حلولٌ برمجية متكاملة تُدير أعمالك بذكاء.",
     "productsTitle": "المنتجات",

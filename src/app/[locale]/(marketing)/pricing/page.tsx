@@ -7,6 +7,8 @@ import { Badge } from "@/components/ui/badge";
 import { Reveal } from "@/components/reveal";
 import { SectionHeading } from "@/components/section-heading";
 import { getCatalog } from "@/lib/catalog";
+import { getDeviceApp } from "@/content/device-apps";
+import { DeviceAppPlans } from "@/components/device-app-section";
 import { localized } from "@/content/types";
 import { cn } from "@/lib/utils";
 import type { Locale } from "@/i18n/routing";
@@ -38,7 +40,10 @@ export default async function PricingPage({
       </Reveal>
 
       <div className="mt-14 space-y-14">
-        {products.map((product) => (
+        {products.map((product) => {
+          // Device apps are priced by their live device plans, not company plans.
+          const deviceApp = getDeviceApp(product.slug);
+          return (
           <Reveal key={product.slug}>
             <div>
               <div className="mb-6">
@@ -50,6 +55,9 @@ export default async function PricingPage({
                 </p>
               </div>
 
+              {deviceApp ? (
+                <DeviceAppPlans app={deviceApp} locale={locale} />
+              ) : (
               <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
                 {product.plans.map((plan) => (
                   <div
@@ -98,9 +106,11 @@ export default async function PricingPage({
                   </div>
                 ))}
               </div>
+              )}
             </div>
           </Reveal>
-        ))}
+          );
+        })}
       </div>
 
       <p className="mt-12 text-center text-xs text-muted-foreground">
