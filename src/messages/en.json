@@ -126,6 +126,13 @@
       "success": "Your message has been received. Thank you!"
     }
   },
+  "privacyPage": {
+    "title": "Privacy Policy",
+    "updated": "Last updated: {date}",
+    "contactTitle": "Contact",
+    "contactBody": "For any question, or to request deletion of your data:",
+    "notFound": "No privacy policy for this product"
+  },
   "footer": {
     "tagline": "Integrated software that runs your business, smarter.",
     "productsTitle": "Products",
