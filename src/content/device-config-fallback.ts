@@ -58,6 +58,24 @@ export const deviceConfigFallback: Record<string, DeviceRemoteConfig> = {
       telegram: "https://t.me/+963959027196",
     },
   },
+  /*
+   * دفتر حسابات (`daftar_hesabat`). Mirrors the row seeded by evotech-core's
+   * migration 2026_10_06_100000, which itself mirrors the values the app compiles
+   * in — so the API, this fallback and the app's own defaults all agree, and a
+   * fetch failure anywhere changes nothing a user sees. Its own support number,
+   * deliberately not Fawateer's.
+   */
+  daftar: {
+    latest_version: "1.0.0",
+    api: { base_url: "https://api.evotech-sys.com/api/daftar" },
+    downloads: {},
+    update_notes: [],
+    support: {
+      email: "mohamad.hasan.it.96@gmail.com",
+      whatsapp: "963983820430",
+      telegram: "https://t.me/+963983820430",
+    },
+  },
 };
 
 /**
