@@ -149,6 +149,24 @@
     "paymentTitle": "Payment",
     "privacy": "Privacy policy"
   },
+  "statementPage": {
+    "title": "Account statement",
+    "customer": "Customer: {name}",
+    "youOwe": "Amount you owe",
+    "yourCredit": "Your credit with the shop",
+    "settled": "The account is fully settled",
+    "totalDue": "Total due",
+    "totalPaid": "Total paid",
+    "entries": "Transactions",
+    "noEntries": "There are no transactions in this statement.",
+    "due": "Due",
+    "paid": "Paid",
+    "frozen": "A fixed statement the shop created on {generated}; it does not change afterwards. This link expires on {expires}.",
+    "unavailableTitle": "This link is not available",
+    "unavailableBody": "The link has expired or the shop turned it off. Ask the shop for a new statement.",
+    "promo": "Own a shop? Track your customers' debts on your phone instead of a paper notebook — free, and it works offline.",
+    "promoCta": "Discover Daftar Hesabat"
+  },
   "footer": {
     "tagline": "Integrated software that runs your business, smarter.",
     "productsTitle": "Products",

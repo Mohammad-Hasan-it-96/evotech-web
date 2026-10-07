@@ -23,6 +23,17 @@ const nextConfig: NextConfig = {
           { key: "Cache-Control", value: "public, max-age=300, must-revalidate" },
         ],
       },
+      {
+        // Shared customer statements (evotech-core ADR 0013): a debtor's balance,
+        // reachable by anyone holding the link. Never indexed, never cached by a
+        // shared cache, and the token in the URL never leaks through a Referer.
+        source: "/:locale(ar|en)/s/:token",
+        headers: [
+          { key: "Cache-Control", value: "private, no-store" },
+          { key: "Referrer-Policy", value: "no-referrer" },
+          { key: "X-Robots-Tag", value: "noindex, nofollow" },
+        ],
+      },
     ];
   },
 };
