@@ -75,6 +75,10 @@ const daftar: PrivacyPolicy = {
           ar: "بريد حساب Google المرتبط بالنسخ الاحتياطي — فقط إن ربطت Google Drive، ويُحذَف عند تسجيل الخروج.",
           en: "The Google account email used for backups — only if you connect Google Drive; cleared when you sign out.",
         },
+        {
+          ar: "رمز الدعوة وأيّ جهاز دعاك — فقط إن أدخلت رمز دعوة، لنمنح من دعاك شهراً مجانياً عند اشتراكك.",
+          en: "The invite code you entered and which device invited you — only if you enter one, so the shop that invited you gets its free month when you subscribe.",
+        },
       ],
       paragraphs: [
         {
