@@ -116,6 +116,12 @@ export interface DeviceSubscription {
   requested_plan: string | null;
   /** How the user asked to be reached: whatsapp | telegram | email. */
   contact_method: string | null;
+  /** This device's invite code (ADR 0012); null for apps without referrals. */
+  referral_code: string | null;
+  /** The device whose code this one registered with; present on the listing. */
+  referred_by?: { id: string; full_name: string | null } | null;
+  /** Invited devices that paid and earned this one a reward; present on the listing. */
+  referral_rewards_count?: number;
   stars: number | null;
   comment: string | null;
   created_at: string | null;
@@ -157,6 +163,11 @@ export interface DeviceApp {
   slug: string;
   label: string;
   trial_days: number;
+  /**
+   * Days a referrer earns when a device it invited is first activated (paid).
+   * 0 = the app does not run referrals (ADR 0012).
+   */
+  referral_reward_days: number;
   /** False = this app sells its own catalog; true = it reads the shared list. */
   uses_shared_plans: boolean;
   plans_count?: number;

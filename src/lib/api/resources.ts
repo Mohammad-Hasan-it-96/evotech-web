@@ -355,6 +355,7 @@ export function fetchDeviceApps() {
 export interface UpdateDeviceAppBody {
   label?: string;
   trial_days?: number;
+  referral_reward_days?: number;
   uses_shared_plans?: boolean;
   /** A Products-module slug, or null to unlink. */
   product?: string | null;

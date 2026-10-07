@@ -154,6 +154,29 @@ function DeviceRow({ device }: { device: DeviceSubscription }) {
             {t("googleAccount")}: {device.google_account}
           </div>
         ) : null}
+        {/* Referrals (ADR 0012) — only for apps that run them, so most rows of
+            other apps show nothing here. The reward itself is automatic on the
+            invited device's first activation; this is so support can answer
+            "did my free month arrive?" at a glance. */}
+        {device.referral_code || device.referred_by || device.referral_rewards_count ? (
+          <div className="mt-0.5 flex flex-wrap gap-x-2 text-[11px] text-muted-foreground">
+            {device.referral_code ? (
+              <span>
+                {t("referralCode")}: <span className="font-mono" dir="ltr">{device.referral_code}</span>
+              </span>
+            ) : null}
+            {device.referral_rewards_count ? (
+              <span className="text-primary">
+                {t("referralRewards", { count: device.referral_rewards_count })}
+              </span>
+            ) : null}
+            {device.referred_by ? (
+              <span>
+                {t("invitedBy")}: {device.referred_by.full_name ?? "—"}
+              </span>
+            ) : null}
+          </div>
+        ) : null}
       </TableCell>
 
       <TableCell>{device.app_name ?? "—"}</TableCell>

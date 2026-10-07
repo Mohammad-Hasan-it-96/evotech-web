@@ -34,11 +34,13 @@ export function AppSettingsDialog({ app }: { app: DeviceApp }) {
   const [open, setOpen] = React.useState(false);
   const [label, setLabel] = React.useState(app.label);
   const [trialDays, setTrialDays] = React.useState(String(app.trial_days));
+  const [referralDays, setReferralDays] = React.useState(String(app.referral_reward_days ?? 0));
   const [usesShared, setUsesShared] = React.useState(app.uses_shared_plans);
 
   const reset = () => {
     setLabel(app.label);
     setTrialDays(String(app.trial_days));
+    setReferralDays(String(app.referral_reward_days ?? 0));
     setUsesShared(app.uses_shared_plans);
   };
 
@@ -47,6 +49,7 @@ export function AppSettingsDialog({ app }: { app: DeviceApp }) {
       updateDeviceApp(app.id, {
         label,
         trial_days: Number(trialDays),
+        referral_reward_days: Number(referralDays),
         uses_shared_plans: usesShared,
       }),
     onSuccess: async () => {
@@ -116,6 +119,21 @@ export function AppSettingsDialog({ app }: { app: DeviceApp }) {
               onChange={(e) => setTrialDays(e.target.value)}
             />
             <p className="text-xs text-muted-foreground">{t("trialHint")}</p>
+          </div>
+
+          <div className="space-y-2">
+            <Label htmlFor="a-referral">{t("referralDays")}</Label>
+            <Input
+              id="a-referral"
+              type="number"
+              dir="ltr"
+              required
+              min={0}
+              max={365}
+              value={referralDays}
+              onChange={(e) => setReferralDays(e.target.value)}
+            />
+            <p className="text-xs text-muted-foreground">{t("referralHint")}</p>
           </div>
 
           <div className="space-y-2">
