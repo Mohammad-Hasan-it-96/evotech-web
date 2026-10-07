@@ -34,8 +34,8 @@ const daftar: PrivacyPolicy = {
       title: { ar: "باختصار", en: "Summary" },
       paragraphs: [
         {
-          ar: "«دفتر حسابات» دفتر ديون رقمي للمحلات. دفترك — عملاؤك ومبالغهم وحركاتهم — يبقى على هاتفك، لا نراه ولا نستضيفه على خوادمنا إلا كشفاً تختار أنت مشاركته كرابط. نرسل إلى خادمنا فقط ما يلزم لإدارة اشتراكك. لا نبيع أي بيانات ولا نعرض إعلانات.",
-          en: "Daftar Hesabat is a debt notebook for shops. Your ledger — customers, amounts and transactions — stays on your phone; we never receive or host it, except a statement you choose to share as a link. We send to our server only what is needed to manage your subscription. We sell no data and show no ads.",
+          ar: "«دفتر حسابات» دفتر ديون رقمي للمحلات. دفترك — عملاؤك ومبالغهم وحركاتهم — يبقى على هاتفك، لا نراه ولا نستضيفه على خوادمنا إلا كشفاً تختار أنت مشاركته كرابط، أو دفترك كاملاً إن فعّلت مزامنة أجهزة المحل. نرسل إلى خادمنا فقط ما يلزم لإدارة اشتراكك. لا نبيع أي بيانات ولا نعرض إعلانات.",
+          en: "Daftar Hesabat is a debt notebook for shops. Your ledger — customers, amounts and transactions — stays on your phone; we never receive or host it, except a statement you choose to share as a link, or the whole ledger if you turn on shop device sync. We send to our server only what is needed to manage your subscription. We sell no data and show no ads.",
         },
       ],
     },
@@ -78,6 +78,10 @@ const daftar: PrivacyPolicy = {
         {
           ar: "رمز الدعوة وأيّ جهاز دعاك — فقط إن أدخلت رمز دعوة، لنمنح من دعاك شهراً مجانياً عند اشتراكك.",
           en: "The invite code you entered and which device invited you — only if you enter one, so the shop that invited you gets its free month when you subscribe.",
+        },
+        {
+          ar: "مزامنة أجهزة المحل (اختيارية، Pro): إن فعّلتها يُرفع دفترك — العملاء والحركات والمجموعات — إلى خادمنا ليصل إلى هواتف محلّك التي تضيفها أنت فقط. كل تعديل يُحذف من الخادم تلقائياً بعد 60 يوماً، ونسخة الدفتر التي يستلمها هاتف جديد تُحذف فور تنزيلها. إيقاف المزامنة لا يمسح شيئاً من هاتفك.",
+          en: "Shop device sync (optional, Pro): if you turn it on, your ledger — customers, transactions and groups — is uploaded to our server so it reaches the phones you add to your shop, and only those. Each change is deleted from the server automatically after 60 days, and the ledger copy a new phone receives is deleted as soon as it is downloaded. Turning sync off deletes nothing from your phone.",
         },
         {
           ar: "رمز الإشعارات (FCM) لجهازك — لنرسل إليك إشعار تفعيل الاشتراك وتذكير التجديد عبر خدمة Firebase من Google. لا يحمل الإشعار بيانات دفترك.",
