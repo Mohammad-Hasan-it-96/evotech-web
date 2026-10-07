@@ -142,8 +142,8 @@ const daftar: PrivacyPolicy = {
           en: "An optional PIN or biometric lock, with a temporary lockout after 5 wrong attempts.",
         },
         {
-          ar: "التطبيق يمنع النسخ الاحتياطي التلقائي للنظام ويخفي محتواه في قائمة التطبيقات الأخيرة.",
-          en: "The app disables system auto-backup and hides its content in the recent-apps screen.",
+          ar: "التطبيق يمنع النسخ الاحتياطي التلقائي للنظام ويخفي محتواه في قائمة التطبيقات الأخيرة (Android 13 وأحدث). لقطات الشاشة مسموحة كي ترسل كشفاً أو رصيداً.",
+          en: "The app disables system auto-backup and hides its content in the recent-apps screen (Android 13 and later). Screenshots are allowed so you can send a statement or balance.",
         },
       ],
     },

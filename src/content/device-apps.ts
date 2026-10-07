@@ -28,7 +28,8 @@ export const deviceApps: DeviceApp[] = [
     free: [
       { ar: "زبائن وحركات بلا حدود", en: "Unlimited customers and transactions" },
       { ar: "رصيد كل زبون فوراً، وكشف حساب مفصّل", en: "Every balance instantly, with a detailed statement" },
-      { ar: "دفتر لليرة ودفتر للدولار", en: "Separate books for lira and dollar" },
+      { ar: "دفتر لليرة الجديدة ودفتر للدولار", en: "Separate books for the new lira and dollar" },
+      { ar: "تحويل أي أرصدة بالليرة القديمة إلى الجديدة (100:1)", en: "Convert any old-lira balances to the new lira (100:1)" },
       { ar: "كشف حساب PDF أو نصّي للزبون", en: "PDF or text statements for customers" },
       { ar: "نسخة احتياطية يومية على جهازك", en: "Daily backup on your device" },
       { ar: "قفل برمز PIN أو بالبصمة", en: "PIN or fingerprint lock" },
@@ -38,7 +39,7 @@ export const deviceApps: DeviceApp[] = [
       { ar: "تذكير الزبون بدَينه عبر واتساب", en: "WhatsApp debt reminders" },
       { ar: "تذكير المتأخرين دفعة واحدة", en: "Remind all overdue customers in one go" },
       { ar: "نسخ احتياطي إلى Google Drive واسترجاع على جهاز جديد", en: "Google Drive backup and restore on a new phone" },
-      { ar: "تحويل الأرصدة إلى الليرة الجديدة (100:1)", en: "Convert balances to the new lira (100:1)" },
+      { ar: "دفتر واحد على 3 هواتف في المحل (خطة الأجهزة المتعددة)", en: "One ledger on 3 phones in the shop (multi-device plan)" },
       { ar: "كشوف ورسائل بلا تذييل التطبيق", en: "Statements and messages without the app footer" },
     ],
     payment: {
