@@ -27,15 +27,15 @@ export interface PrivacyPolicy {
 const daftar: PrivacyPolicy = {
   product: "daftar",
   productName: { ar: "دفتر حسابات", en: "Daftar Hesabat" },
-  updated: "2026-10-06",
+  updated: "2026-10-07",
   contact: { email: "mohamad.hasan.it.96@gmail.com", whatsapp: "963983820430" },
   sections: [
     {
       title: { ar: "باختصار", en: "Summary" },
       paragraphs: [
         {
-          ar: "«دفتر حسابات» دفتر ديون رقمي للمحلات. دفترك — عملاؤك ومبالغهم وحركاتهم — يبقى على هاتفك، لا نراه ولا نستضيفه على خوادمنا. نرسل إلى خادمنا فقط ما يلزم لإدارة اشتراكك. لا نبيع أي بيانات ولا نعرض إعلانات.",
-          en: "Daftar Hesabat is a debt notebook for shops. Your ledger — customers, amounts and transactions — stays on your phone; we never receive or host it. We send to our server only what is needed to manage your subscription. We sell no data and show no ads.",
+          ar: "«دفتر حسابات» دفتر ديون رقمي للمحلات. دفترك — عملاؤك ومبالغهم وحركاتهم — يبقى على هاتفك، لا نراه ولا نستضيفه على خوادمنا إلا كشفاً تختار أنت مشاركته كرابط. نرسل إلى خادمنا فقط ما يلزم لإدارة اشتراكك. لا نبيع أي بيانات ولا نعرض إعلانات.",
+          en: "Daftar Hesabat is a debt notebook for shops. Your ledger — customers, amounts and transactions — stays on your phone; we never receive or host it, except a statement you choose to share as a link. We send to our server only what is needed to manage your subscription. We sell no data and show no ads.",
         },
       ],
     },
@@ -106,6 +106,10 @@ const daftar: PrivacyPolicy = {
         {
           ar: "تذكيرات واتساب وكشوف الحساب (نصّاً أو PDF) لا تُرسَل إلا حين تضغط أنت زر الإرسال أو المشاركة، عبر التطبيق الذي تختاره. تتضمّن اسم العميل ورصيده واسم متجرك، وتذييلاً باسم التطبيق ورابط تنزيله (يمكن إزالته في Pro).",
           en: "WhatsApp reminders and account statements (text or PDF) are sent only when you tap send or share, through the app you choose. They contain the customer's name and balance, your shop name, and a footer with the app name and download link (removable on Pro).",
+        },
+        {
+          ar: "رابط الكشف (اختياري): حين تختار «مشاركة رابط الكشف» نرفع إلى خادمنا نسخة ثابتة من ذلك الكشف وحده — اسم المتجر واسم العميل والعملة والرصيد والحركات وملاحظاتها، دون أي رقم هاتف. يفتحها من يملك الرابط، وتُحذف تلقائياً بعد 30 يوماً، ويمكنك إيقافها قبل ذلك من الإعدادات ← روابط الكشوف المشتركة.",
+          en: "Statement links (optional): when you choose “Share statement link”, we upload a fixed copy of that one statement — shop name, customer name, currency, balance, and its transactions with their notes, without any phone number. Anyone with the link can open it; it is deleted automatically after 30 days, and you can turn it off sooner from Settings → Shared statement links.",
         },
       ],
     },
