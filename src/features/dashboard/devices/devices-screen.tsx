@@ -23,6 +23,7 @@ import {
 import { ActivateDeviceDialog } from "./activate-device-dialog";
 import { DeclineDeviceDialog } from "./decline-device-dialog";
 import { DeleteDeviceDialog } from "./delete-device-dialog";
+import { SharedLinksDialog } from "./shared-links-dialog";
 
 /**
  * The operator console for consumer-app devices (SmartAgent, Fawateer).
@@ -158,6 +159,12 @@ function DeviceRow({ device }: { device: DeviceSubscription }) {
             other apps show nothing here. The reward itself is automatic on the
             invited device's first activation; this is so support can answer
             "did my free month arrive?" at a glance. */}
+        {/* Shared statement links (ADR 0013) — only when the device has live ones. */}
+        {device.statements_count ? (
+          <div className="mt-0.5 text-[11px]">
+            <SharedLinksDialog device={device} />
+          </div>
+        ) : null}
         {device.referral_code || device.referred_by || device.referral_rewards_count ? (
           <div className="mt-0.5 flex flex-wrap gap-x-2 text-[11px] text-muted-foreground">
             {device.referral_code ? (

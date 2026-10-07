@@ -5,6 +5,7 @@ import type {
   DeviceApp,
   DeviceCatalogPlan,
   DeviceNotification,
+  DeviceStatementLink,
   DeviceSubscription,
   Paginated,
   Product,
@@ -137,6 +138,18 @@ export function deleteDeviceSubscription(id: string, force = false) {
     `/v1/device-subscriptions/${id}${force ? "?force=1" : ""}`,
     { method: "DELETE" },
   );
+}
+
+/** A device's live shared statement links (ADR 0013), newest first. */
+export function fetchDeviceStatements(deviceId: string) {
+  return apiFetch<ApiEnvelope<DeviceStatementLink[]>>(
+    `/v1/device-subscriptions/${deviceId}/statements`,
+  );
+}
+
+/** Stops a shared statement link now; the page then reads "not available". */
+export function deleteDeviceStatement(id: string) {
+  return apiFetch<void>(`/v1/device-statements/${id}`, { method: "DELETE" });
 }
 
 // --- Releases (Download Center) ---

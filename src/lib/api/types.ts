@@ -122,10 +122,27 @@ export interface DeviceSubscription {
   referred_by?: { id: string; full_name: string | null } | null;
   /** Invited devices that paid and earned this one a reward; present on the listing. */
   referral_rewards_count?: number;
+  /** Live shared statement links (ADR 0013); present on the listing. */
+  statements_count?: number;
   stars: number | null;
   comment: string | null;
   created_at: string | null;
   updated_at: string | null;
+}
+
+/**
+ * A statement link a device shared (evotech-core ADR 0013) — the staff view.
+ *
+ * Deliberately thin: no amounts or entries (only the link holder sees those) and
+ * no URL, because the server stores the token hashed and cannot rebuild it.
+ */
+export interface DeviceStatementLink {
+  id: string;
+  customer_name: string;
+  currency: string;
+  entries_count: number;
+  created_at: string | null;
+  expires_at: string;
 }
 
 /**
